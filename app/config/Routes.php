@@ -1,7 +1,5 @@
 <?php
 
-// echo getcwd();
-
 require_once('../app/core/Router.php');
 
 $route = New Routing();
