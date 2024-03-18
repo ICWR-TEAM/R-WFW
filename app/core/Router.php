@@ -53,14 +53,14 @@ class Routing
 
             $url = '/' . ltrim($_SERVER['REQUEST_URI'], $specificPart . '/');
             $url = rtrim($url, '/');
-            $url_parts = explode('/', $url);
 
         } else {
 
             $url = rtrim($_SERVER['REQUEST_URI'], '/');
-            $url_parts = explode('/', $url);
 
         }
+
+        $url_parts = explode('/', $url);
 
         foreach ($this->routes as $route) {
 
