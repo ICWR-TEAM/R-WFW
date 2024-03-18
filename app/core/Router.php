@@ -60,6 +60,7 @@ class Routing
 
         }
 
+        $url = explode('?', $url)[0];
         $url_parts = explode('/', $url);
 
         foreach ($this->routes as $route) {
