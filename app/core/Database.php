@@ -85,10 +85,10 @@ class Database
 
     }
 
-    public function filter_input($input)
+    public function filter($string)
     {
 
-        $sql['result'] = mysqli_real_escape_string($this->getConnection(), $input);
+        $sql['result'] = mysqli_real_escape_string($this->getConnection(), $string);
 
         return $sql['result'];
 
