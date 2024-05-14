@@ -85,4 +85,13 @@ class Database
 
     }
 
+    public function filter_input($input)
+    {
+
+        $sql['result'] = mysqli_real_escape_string($this->getConnection(), $input);
+
+        return $sql['result'];
+
+    }
+
 }
