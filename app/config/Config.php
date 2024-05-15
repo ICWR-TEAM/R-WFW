@@ -13,8 +13,9 @@ define('DB_NAME', 'incrustwerush.org');
 
 // Configuration
 
-$developmentMode = true; // true or false
+define('DEV_MODE', true); // true or false
+define('USE_DB', false); // true or false
 
 // ---
 
-if ($developmentMode === false) error_reporting(0);
+(DEV_MODE) ? (error_reporting(E_ALL) && ini_set("display_errors", 1)) : (error_reporting(0) && ini_set("display_errors", 0));
