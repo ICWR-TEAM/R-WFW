@@ -33,7 +33,7 @@ define('DB_NAME', 'incrustwerush.org');
 // Configuration
 
 define('DEV_MODE', true); // true or false
-define('USE_DB', false); // true or false
+define('DB_USE', false); // true or false
 
 // ---
 
@@ -43,7 +43,7 @@ Use this for mysqli query :
 ####
 You Must Active USE Database on Config
 ```php
-define('USE_DB', true);
+define('DB_USE', true);
 ```
 ####
 On Model Function Use

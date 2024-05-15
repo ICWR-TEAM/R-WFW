@@ -10,7 +10,7 @@ class Model
     public function __construct()
     {
 
-        if (USE_DB) {
+        if (DB_USE) {
 
             $this->db = new Database();
             
