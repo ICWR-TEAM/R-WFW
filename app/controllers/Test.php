@@ -26,4 +26,11 @@ class Test extends Controller
 
     }
 
+    public function post()
+    {
+
+        echo 'Test Post';
+
+    }
+
 }

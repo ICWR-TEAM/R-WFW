@@ -66,22 +66,23 @@ class Router
 
         $url = explode('?', $url)[0];
         $url_parts = explode('/', $url);
+        $method_not_allowed = false;
 
-        foreach ($this->routes as $route) {
+        foreach ($this->routes as $route)
+        {
 
             $route_parts = $this->parseURLFromRoute($route['url']);
 
-            if ($_SERVER['REQUEST_METHOD'] === strtoupper($route['method']) && count($url_parts) === count($route_parts)) {
+            if (count($url_parts) === count($route_parts)) {
 
                 $parameters = [];
-
                 $match = true;
 
                 for ($i = 0; $i < count($url_parts); $i++)
                 {
 
                     if (!empty($route_parts[$i]) && $route_parts[$i][0] === '{' && $route_parts[$i][strlen($route_parts[$i]) - 1] === '}') {
-
+                        
                         $parameter_name = substr($route_parts[$i], 1, -1);
                         $parameters[$parameter_name] = $url_parts[$i];
 
@@ -96,8 +97,16 @@ class Router
 
                 if ($match) {
 
-                    $this->Controller($route['handler'], $parameters);
-                    return;
+                    if ($_SERVER['REQUEST_METHOD'] === strtoupper($route['method'])) {
+                        
+                        $this->Controller($route['handler'], $parameters);
+                        return;
+
+                    } else {
+
+                        $method_not_allowed = true;
+
+                    }
 
                 }
 
@@ -105,8 +114,17 @@ class Router
 
         }
 
-        header("HTTP/1.0 404 Not Found");
-        echo 'Not Found!';
+        if ($method_not_allowed) {
+
+            header("HTTP/1.0 405 Method Not Allowed");
+            echo 'Method Not Allowed!';
+
+        } else {
+
+            header("HTTP/1.0 404 Not Found");
+            echo 'Not Found!';
+            
+        }
 
     }
 
