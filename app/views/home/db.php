@@ -6,7 +6,7 @@
             <span>
                Output:
                <br />
-               <?php while ($row = mysqli_fetch_array($data['result'])) { ?>
+               <?php foreach ($data['result'] as $id => $row) { ?>
                 <?=$row['text']; ?><br />
                <?php } ?>
             </span>

@@ -10,7 +10,7 @@ class TestDBModel extends Model
     public function testFunc()
     {
 
-        $output = $this->db->query("SELECT * FROM test");
+        $output = $this->db->query_fetch_array("SELECT * FROM test");
 
         return $output;
     }

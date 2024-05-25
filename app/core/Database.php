@@ -52,7 +52,17 @@ class Database
     public function query_fetch_array($query)
     {
 
-        $sql['result'] = mysqli_fetch_array($this->query($query));
+        $sql['query'] = $this->query($query);
+        $sql['result'] = [];
+
+        $no = 1;
+
+        while($row = mysqli_fetch_array($sql['query'] )) 
+        {
+
+            $sql['result'][$no++] = $row;
+            
+        }
 
         return $sql['result'];
 
