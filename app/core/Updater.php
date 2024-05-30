@@ -68,33 +68,42 @@ class Updater
         $extracted = __DIR__ . "/../../tmp/R-WFW-main";
         $to = __DIR__ . "/../../";
 
-        if (file_put_contents($zip_path, file_get_contents($url))) {
+        try {
 
-            if ($this->unzip($zip_path, $extract_path)) {
+            if (file_put_contents($zip_path, file_get_contents($url))) {
 
-                $this->recursiveCopy($extracted, $to);
-
-                if ($this->true) {
-
-                    return 'Installation completed successfully.';
-
+                if ($this->unzip($zip_path, $extract_path)) {
+    
+                    $this->recursiveCopy($extracted, $to);
+    
+                    if ($this->true) {
+    
+                        return 'Installation completed successfully.';
+    
+                    } else {
+    
+                        return 'Failed to copy files.';
+                        
+                    }
+    
                 } else {
-
-                    return 'Failed to copy files.';
-                    
+    
+                    return 'Installation failed!';
+    
                 }
-
+    
             } else {
-
-                return 'Installation failed!';
-
+    
+                return 'Failed to download ZIP file.';
+    
             }
 
-        } else {
+        } catch (Exception $e) {
 
-            return 'Failed to download ZIP file.';
+            echo "Error: " . $e->getMessage();
 
         }
+
     }
 
     private function unzip($zip_path, $extract_path)
