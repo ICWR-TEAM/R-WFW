@@ -19,7 +19,13 @@ class Updater
 
             if (!is_dir($destination)) {
 
-                mkdir($destination, 0777, true);
+                $not_update = "app\/models\/|app\/controllers|app\/views";
+            
+                if (!preg_match("/$not_update/", $destination)) {
+
+                    mkdir($destination, 0777, true);
+
+                }
 
             }
 
