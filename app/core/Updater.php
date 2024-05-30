@@ -37,21 +37,30 @@ class Updater
                 mkdir($extract_path, 0755, true);
 
             }
-            
+
             while ($zip_entry = zip_read($zip)) {
 
                 $entry_name = zip_entry_name($zip_entry);
                 $entry_size = zip_entry_filesize($zip_entry);
 
-                if (zip_entry_open($zip, $zip_entry, "r")) {
+                // Check if the entry is a file or directory
+                if (substr($entry_name, -1) === '/') {
+                    // Directory, create it if not exists
+                    $extracted_dir = $extract_path . '/' . basename($entry_name);
+                    if (!file_exists($extracted_dir)) {
+                        mkdir($extracted_dir, 0755, true);
+                    }
+                } else {
+                    // File, extract it
+                    if (zip_entry_open($zip, $zip_entry, "r")) {
 
-                    $file_content = zip_entry_read($zip_entry, $entry_size);
-                    $extracted_file = $extract_path . '/' . basename($entry_name);
-                    file_put_contents($extracted_file, $file_content);
-                    zip_entry_close($zip_entry);
+                        $file_content = zip_entry_read($zip_entry, $entry_size);
+                        $extracted_file = $extract_path . '/' . basename($entry_name);
+                        file_put_contents($extracted_file, $file_content);
+                        zip_entry_close($zip_entry);
 
+                    }
                 }
-
             }
 
             zip_close($zip);
