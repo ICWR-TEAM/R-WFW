@@ -41,7 +41,7 @@ class Updater
 
         } else {
             
-            if (!preg_match("/config\/Config.php/", $destination)) {
+            if (!preg_match("/config\/Config.php|app\/models\/|app\/controllers|app\/views/", $destination)) {
 
                 if (copy($source, $destination)) {
 
