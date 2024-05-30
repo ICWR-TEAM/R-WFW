@@ -36,12 +36,11 @@ class Updater
                 $source_path = $source . '/' . $item;
                 $destination_path = $destination . '/' . $item;
                 $this->recursiveCopy($source_path, $destination_path);
-
             }
 
         } else {
             
-            if (!preg_match("/config\/Config.php/", $destination)) {
+            if (basename($source) != 'config.php') {
 
                 if (copy($source, $destination)) {
 
