@@ -18,6 +18,6 @@ $route->Route('post', '/test/post', "Test::post");
 
 // System
 
-// $route->Route('get', '/updater', "Update::list");
+$route->Route('get', '/updater', "Update::install");
 
 $route->handleRoute();

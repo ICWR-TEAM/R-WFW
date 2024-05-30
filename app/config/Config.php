@@ -22,10 +22,3 @@ define('ALLOW_ALL_CORS', false); // true or false
 
 define('ALL_SECURITY_HEADERS', false); // true or false
 define('ANTI_XSS', true); // true or false
-
-
-/*
-
-
-
-*/

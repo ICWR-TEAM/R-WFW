@@ -5,75 +5,123 @@ namespace App\Core;
 class Updater
 {
 
-    private function install()
+    public function __construct()
+    {
+
+        $this->true = false;
+
+    }
+
+    private function recursiveCopy($source, $destination)
+    {
+
+        if (is_dir($source)) {
+
+            if (!is_dir($destination)) {
+
+                mkdir($destination, 0777, true);
+
+            }
+
+            $dir_contents = scandir($source);
+
+            foreach ($dir_contents as $item) {
+
+                if ($item == '.' || $item == '..') {
+
+                    continue;
+
+                }
+
+                $source_path = $source . '/' . $item;
+                $destination_path = $destination . '/' . $item;
+                $this->recursiveCopy($source_path, $destination_path);
+            }
+
+        } else {
+            
+            if (basename($source) != 'config.php') {
+
+                if (copy($source, $destination)) {
+
+                    $this->true = true;
+
+                } else {
+                    
+                    $this->true = false;
+
+                }
+
+            }
+
+        }
+
+    }
+
+    public function install()
     {
 
         $url = "https://github.com/ICWR-TEAM/R-WFW/archive/refs/heads/main.zip";
 
-        $zip_path = __DIR__ . '/main.zip';
+        $zip_path = __DIR__ . '/../../tmp/update.zip';
+        $extract_path = __DIR__ . "/../../tmp/";
+        $extracted = __DIR__ . "/../../tmp/R-WFW-main";
+        $to = __DIR__ . "/../../";
 
         if (file_put_contents($zip_path, file_get_contents($url))) {
 
-            $this->unzip($zip_path, __DIR__);
-            return 'Installation completed successfully.';
+            if ($this->unzip($zip_path, $extract_path)) {
+
+                $this->recursiveCopy($extracted, $to);
+
+                if ($this->true) {
+
+                    return 'Installation completed successfully.';
+
+                } else {
+
+                    return 'Failed to copy files.';
+                    
+                }
+
+            } else {
+
+                return 'Installation failed!';
+
+            }
 
         } else {
 
             return 'Failed to download ZIP file.';
 
         }
-
     }
 
     private function unzip($zip_path, $extract_path)
     {
 
-        $zip = zip_open($zip_path);
+        $zip = new \ZipArchive;
 
-        if ($zip) {
+        if ($zip->open($zip_path) === true) {
 
-            if (!file_exists($extract_path)) {
+            if ($zip->extractTo($extract_path)) {
 
-                mkdir($extract_path, 0755, true);
+                $zip->close();
+                return true;
+
+            } else {
+
+                $zip->close();
+                return false;
 
             }
-
-            while ($zip_entry = zip_read($zip)) {
-
-                $entry_name = zip_entry_name($zip_entry);
-                $entry_size = zip_entry_filesize($zip_entry);
-
-                // Check if the entry is a file or directory
-                if (substr($entry_name, -1) === '/') {
-                    // Directory, create it if not exists
-                    $extracted_dir = $extract_path . '/' . basename($entry_name);
-                    if (!file_exists($extracted_dir)) {
-                        mkdir($extracted_dir, 0755, true);
-                    }
-                } else {
-                    // File, extract it
-                    if (zip_entry_open($zip, $zip_entry, "r")) {
-
-                        $file_content = zip_entry_read($zip_entry, $entry_size);
-                        $extracted_file = $extract_path . '/' . basename($entry_name);
-                        file_put_contents($extracted_file, $file_content);
-                        zip_entry_close($zip_entry);
-
-                    }
-                }
-            }
-
-            zip_close($zip);
-            return 'ZIP file extracted successfully.';
 
         } else {
 
-            return 'Failed to open ZIP file.';
+            return false;
 
         }
 
     }
 
 }
-
-?>

@@ -7,10 +7,10 @@ use App\Core\Model;
 class UpdaterModel extends Model
 {
 
-    public function getListFile()
+    public function install()
     {
 
-        $output = $this->updater->getList();
+        $output = $this->updater->install();
 
         return $output;
     }
