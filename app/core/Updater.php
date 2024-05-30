@@ -40,8 +40,10 @@ class Updater
             }
 
         } else {
+
+            $not_update = "/config\/Config.php|app\/models\/|app\/controllers|app\/views/|Database\/test.sql";
             
-            if (!preg_match("/config\/Config.php|app\/models\/|app\/controllers|app\/views/", $destination)) {
+            if (!preg_match($not_update, $destination)) {
 
                 if (copy($source, $destination)) {
 
