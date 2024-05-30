@@ -13,9 +13,19 @@ define('DB_NAME', 'incrustwerush.org');
 
 // Configuration
 
+define('UPDATER', true); // true or false
 define('DEV_MODE', true); // true or false
 define('DB_USE', false); // true or false
+define('ALLOW_ALL_CORS', false); // true or false
 
-// ---
+// Security
 
-(DEV_MODE) ? (error_reporting(E_ALL) && ini_set("display_errors", 1)) : (error_reporting(0) && ini_set("display_errors", 0));
+define('ALL_SECURITY_HEADERS', false); // true or false
+define('ANTI_XSS', true); // true or false
+
+
+/*
+
+
+
+*/

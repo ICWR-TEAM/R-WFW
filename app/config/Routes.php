@@ -16,4 +16,8 @@ $route->Route('get', '/testdb', "TestDB::index");
 $route->Route('post', '/test', "Test::post");
 $route->Route('post', '/test/post', "Test::post");
 
+// System
+
+$route->Route('get', '/updater', "Update::list");
+
 $route->handleRoute();

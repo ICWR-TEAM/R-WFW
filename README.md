@@ -34,10 +34,8 @@ define('DB_NAME', 'incrustwerush.org');
 
 define('DEV_MODE', true); // true or false
 define('DB_USE', false); // true or false
-
-// ---
-
-(DEV_MODE) ? (error_reporting(E_ALL) && ini_set("display_errors", 1)) : (error_reporting(0) && ini_set("display_errors", 0));
+define('ALLOW_ALL_CORS', false); // true or false
+define('SECURITY', false); // true or false
 ```
 Use this for mysqli query :
 ####
