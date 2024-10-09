@@ -16,7 +16,7 @@ class AuthTestModel extends Model
                     "message" => "success"
                 ];
                 
-                $jwt = $this->auth->generateJwt($payload, 1800);
+                $jwt = $this->auth->generateJwt(payload: $payload, expired: 1800);
 
                 return json_encode(value: [
                     "status" => "200",
@@ -42,7 +42,7 @@ class AuthTestModel extends Model
     public function Check(): bool|string
     {
         if ($input = json_decode(json: file_get_contents(filename: "php://input"), associative: true)) {
-            if ($response = $this->auth->verifyJwt($input['token'])) {
+            if ($response = $this->auth->verifyJwt(token: $input['token'])) {
                 return json_encode(value: $response);
             } else {
                 return json_encode(value: $response);

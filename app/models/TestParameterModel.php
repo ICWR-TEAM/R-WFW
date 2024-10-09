@@ -7,7 +7,7 @@ use App\Core\Model;
 class TestParameterModel extends Model
 {
 
-    public function testFunc($parameters): string
+    public function testFunc(string $parameters): string
     {
 
         if (is_numeric(value: $parameters[1]) && is_numeric(value: $parameters[2])) {

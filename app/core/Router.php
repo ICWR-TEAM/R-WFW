@@ -9,7 +9,7 @@ class Router
 
     private $routes = [];
 
-    private function Controller($handler, $parameter = []): void
+    private function Controller(string $handler, array $parameter = []): void
     {
 
         $split_handler = explode(separator: "::", string: $handler);
@@ -35,7 +35,7 @@ class Router
 
     }
 
-    public function Route($method, $url, $handler): void
+    public function Route(string $method, string $url, string $handler): void
     {
 
         $this->routes[] = [
@@ -128,7 +128,7 @@ class Router
 
     }
 
-    private function parseURLFromRoute($routeUrl): array|bool
+    private function parseURLFromRoute(string $routeUrl): array|bool
     {
 
         $url = rtrim(string: $routeUrl, characters: '/');

@@ -5,7 +5,7 @@ namespace App\Core;
 class Flasher
 {
 
-    public static function setFlash($msg, $act, $type): void
+    public static function setFlash(string $msg, string $act, string $type): void
     {
 
         $_SESSION['flash'] = [

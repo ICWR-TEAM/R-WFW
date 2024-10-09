@@ -6,12 +6,12 @@ class Auth
 {
     private $secretKey;
 
-    public function __construct($secretKey)
+    public function __construct(string $secretKey)
     {
         $this->secretKey = $secretKey;
     }
 
-    public function generateJwt($payload, $expired = 3600): string
+    public function generateJwt(array $payload, int $expired = 3600): string
     {
         $exp = is_int(value: $expired) ? $expired : 3600;
         
@@ -29,7 +29,7 @@ class Auth
         return "$base64UrlHeader.$base64UrlPayload.$signature";
     }
 
-    public function verifyJwt($token): array
+    public function verifyJwt(string $token): array
     {
         $segments = explode(separator: '.', string: $token);
         if (count(value: $segments) !== 3) {
@@ -68,12 +68,12 @@ class Auth
         ];
     }
 
-    private function base64UrlEncode($data): string
+    private function base64UrlEncode(string $data): string
     {
         return rtrim(string: strtr(string: base64_encode(string: $data), from: '+/', to: '-_'), characters: '=');
     }
 
-    private function base64UrlDecode($data): mixed
+    private function base64UrlDecode(string $data): mixed
     {
         $padding = strlen(string: $data) % 4;
         if ($padding > 0) {

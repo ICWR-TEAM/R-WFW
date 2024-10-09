@@ -17,7 +17,7 @@ class r_crud
 
     }
 
-    public function data_create($table, $data): bool
+    public function data_create(string $table, string $data): bool
     {
 
         $table = mysqli_real_escape_string(mysql: $this->connection, string: $table);
@@ -38,7 +38,7 @@ class r_crud
 
     }
 
-    public function data_read_all($table): array|bool
+    public function data_read_all(string $table): array|bool
     {
 
         $table = mysqli_real_escape_string(mysql: $this->connection, string: $table);
@@ -65,7 +65,7 @@ class r_crud
 
     }
 
-    public function data_read_where($table, $where): array|bool|null
+    public function data_read_where(string $table, string $where): array|bool|null
     {
 
         if (!empty($where)) {
@@ -102,7 +102,7 @@ class r_crud
 
     }
 
-    public function data_update($table, $data, $where): bool
+    public function data_update(string $table, string $data, string $where): bool
     {
 
         $table = mysqli_real_escape_string(mysql: $this->connection, string: $table);
@@ -123,7 +123,7 @@ class r_crud
 
     }
 
-    public function data_delete($table, $where): bool
+    public function data_delete(string $table, string $where): bool
     {
 
         $table = mysqli_real_escape_string(mysql: $this->connection, string: $table);

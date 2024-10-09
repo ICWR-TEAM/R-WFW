@@ -33,7 +33,7 @@ class Database
 
     }
 
-    public function query($query): bool|mysqli_result
+    public function query(string $query): bool|mysqli_result
     {
 
         $sql['result'] = mysqli_query(mysql: $this->getConnection(), query: $query);
@@ -50,7 +50,7 @@ class Database
 
     }
 
-    public function query_fetch_array($query): array|bool|mysqli_result
+    public function query_fetch_array(string $query): array|bool|mysqli_result
     {
 
         $sql['query'] = $this->query(query: $query);
@@ -69,7 +69,7 @@ class Database
 
     }
 
-    public function fetch_array($query): array|bool|null
+    public function fetch_array(string $query): array|bool|null
     {
 
         $sql['result'] = mysqli_fetch_array(result: $query);
@@ -78,7 +78,7 @@ class Database
 
     }
 
-    public function query_num_rows($query): int|string
+    public function query_num_rows(string $query): int|string
     {
 
         $sql['result'] = mysqli_num_rows(result: $this->query(query: $query));
@@ -87,7 +87,7 @@ class Database
 
     }
 
-    public function num_rows($query): int|string
+    public function num_rows(string $query): int|string
     {
 
         $sql['result'] = mysqli_num_rows(result: $query);
@@ -96,7 +96,7 @@ class Database
 
     }
 
-    public function filter($string): string
+    public function filter(string $string): string
     {
 
         $sql['result'] = mysqli_real_escape_string(mysql: $this->getConnection(), $string);

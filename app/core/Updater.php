@@ -12,7 +12,7 @@ class Updater
 
     }
 
-    private function recursiveCopy($source, $destination): void
+    private function recursiveCopy(string $source, string $destination): void
     {
 
         if (is_dir(filename: $source)) {
@@ -115,7 +115,7 @@ class Updater
 
     }
 
-    private function unzip($zip_path, $extract_path): bool
+    private function unzip(string $zip_path, string $extract_path): bool
     {
 
         $zip = new \ZipArchive;
