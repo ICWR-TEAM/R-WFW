@@ -42,7 +42,7 @@ class Auth
         }
 
         list($base64UrlHeader, $base64UrlPayload, $signature) = $segments;
-        #$response = $this->base64UrlDecode($base64UrlPayload);
+        $response = $this->base64UrlDecode($base64UrlPayload);
 
         $response = [
             "status" => "success",
@@ -51,7 +51,7 @@ class Auth
             "data" => []
         ];
 
-        if (isset($payload['exp']) && $payload['exp'] < time()) {
+        if (isset($response['exp']) && $response['exp'] < time()) {
             $response = [
                 "status" => "error",
                 "code" => 401,
