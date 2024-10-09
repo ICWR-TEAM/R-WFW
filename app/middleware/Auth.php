@@ -33,24 +33,41 @@ class Auth
     {
         $segments = explode('.', $token);
         if (count($segments) !== 3) {
-            return ['error' => 'Invalid token'];
+            return [
+                "status" => "error",
+                "code" => 401,
+                "message" => "Token Expired!",
+                "data" => []
+            ];
         }
 
         #list($base64UrlHeader, $base64UrlPayload, $signature) = $segments;
         #$payload = $this->base64UrlDecode($base64UrlPayload);
 
         $payload = [
-            "status" => 200,
-            "message" => "success"
+            "status" => "success",
+            "code" => 200,
+            "message" => "Token is valid.",
+            "data" => []
         ];
 
         if (isset($payload['exp']) && $payload['exp'] < time()) {
-            return ['error' => 'Token expired'];
+            return [
+                "status" => "error",
+                "code" => 401,
+                "message" => "Token has expired.",
+                "data" => []
+            ];
         }
 
         $validSignature = $this->base64UrlEncode(hash_hmac('SHA256', "$base64UrlHeader.$base64UrlPayload", $this->secretKey, true));
         if ($validSignature !== $signature) {
-            return ['error' => 'Invalid token'];
+            return [
+                "status" => "error",
+                "code" => 401,
+                "message" => "Token is invalid.",
+                "data" => []
+            ];
         }
 
         return $payload;
