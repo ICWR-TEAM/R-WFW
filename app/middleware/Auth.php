@@ -39,10 +39,10 @@ class Auth
         #list($base64UrlHeader, $base64UrlPayload, $signature) = $segments;
         #$payload = $this->base64UrlDecode($base64UrlPayload);
 
-        $payload = json_encode([
+        $payload = [
             "status_code" => 200
             "message" => "success"
-        ]);
+        ];
 
         if (isset($payload['exp']) && $payload['exp'] < time()) {
             return ['error' => 'Token expired'];
