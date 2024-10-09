@@ -14,7 +14,7 @@ class Auth
     public function generateJwt($payload, $expired = 3600)
     {
         $exp = is_int($expired) ? $expired : 3600;
-        
+
         $header = json_encode(['alg' => 'HS256', 'typ' => 'JWT']);
         $payload = json_encode([
             'iat' => time(),
@@ -42,20 +42,22 @@ class Auth
         }
 
         list($base64UrlHeader, $base64UrlPayload, $signature) = $segments;
-        $payload = $this->base64UrlDecode($base64UrlPayload);
+        $decodedPayload = $this->base64UrlDecode($base64UrlPayload);
 
-        $payload = [
-            "status" => "success",
-            "code" => 200,
-            "message" => "Token is valid.",
-            "data" => []
-        ];
-
-        if (isset($payload['exp']) && $payload['exp'] < time()) {
+        if ($decodedPayload === null) {
             return [
-                "status" => "expired",
+                "status" => "error",
+                "code" => 400,
+                "message" => "Token is invalid.",
+                "data" => []
+            ];
+        }
+
+        if (isset($decodedPayload['exp']) && $decodedPayload['exp'] < time()) {
+            return [
+                "status" => "error",
                 "code" => 401,
-                "message" => "Token is expired.",
+                "message" => "Token has expired.",
                 "data" => []
             ];
         }
@@ -70,7 +72,12 @@ class Auth
             ];
         }
 
-        return $payload;
+        return [
+            "status" => "success",
+            "code" => 200,
+            "message" => "Token is valid.",
+            "data" => $decodedPayload['data']
+        ];
     }
 
     private function base64UrlEncode($data)
