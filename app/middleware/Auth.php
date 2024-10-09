@@ -41,7 +41,7 @@ class Auth
             ];
         }
 
-        #list($base64UrlHeader, $base64UrlPayload, $signature) = $segments;
+        list($base64UrlHeader, $base64UrlPayload, $signature) = $segments;
         #$payload = $this->base64UrlDecode($base64UrlPayload);
 
         $payload = [
