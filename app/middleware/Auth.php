@@ -14,7 +14,7 @@ class Auth
     public function generateJwt($payload, $expired = 3600)
     {
         $exp = is_int($expired) ? $expired : 3600;
-
+        
         $header = json_encode(['alg' => 'HS256', 'typ' => 'JWT']);
         $payload = json_encode([
             'iat' => time(),
@@ -36,29 +36,18 @@ class Auth
             return [
                 "status" => "error",
                 "code" => 400,
-                "message" => "Token is invalid.",
-                "data" => []
+                "message" => "Token is valid."
             ];
         }
 
         list($base64UrlHeader, $base64UrlPayload, $signature) = $segments;
-        $decodedPayload = $this->base64UrlDecode($base64UrlPayload);
+        $payload = $this->base64UrlDecode($base64UrlPayload);
 
-        if ($decodedPayload === null) {
-            return [
-                "status" => "error",
-                "code" => 400,
-                "message" => "Token is invalid.",
-                "data" => []
-            ];
-        }
-
-        if (isset($decodedPayload['exp']) && $decodedPayload['exp'] < time()) {
+        if (isset($payload['exp']) && $payload['exp'] < time()) {
             return [
                 "status" => "error",
                 "code" => 401,
-                "message" => "Token has expired.",
-                "data" => []
+                "message" => "Token is expired."
             ];
         }
 
@@ -67,8 +56,7 @@ class Auth
             return [
                 "status" => "error",
                 "code" => 400,
-                "message" => "Signature is invalid.",
-                "data" => []
+                "message" => "Signature is valid."
             ];
         }
 
@@ -76,7 +64,7 @@ class Auth
             "status" => "success",
             "code" => 200,
             "message" => "Token is valid.",
-            "data" => $decodedPayload['data']
+            "data" => $payload['data']
         ];
     }
 
