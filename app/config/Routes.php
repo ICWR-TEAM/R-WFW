@@ -16,6 +16,7 @@ $route->Route('get', '/testdb', "TestDB::index");
 $route->Route('post', '/test', "Test::post");
 $route->Route('post', '/test/post', "Test::post");
 $route->Route('post', '/test/auth/login', "AuthTest::login");
+$route->Route('post', '/test/auth/check', "AuthTest::check");
 
 // System
 
