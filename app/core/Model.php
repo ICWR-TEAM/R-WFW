@@ -10,6 +10,7 @@ use App\Middleware\Auth;
 
 class Model
 {
+    public $auth;
 
     public function __construct()
     {
