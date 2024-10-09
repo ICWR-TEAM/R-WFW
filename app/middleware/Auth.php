@@ -42,7 +42,7 @@ class Auth
         }
 
         list($base64UrlHeader, $base64UrlPayload, $signature) = $segments;
-        $response = $this->base64UrlDecode($base64UrlPayload);
+        $payload = $this->base64UrlDecode($base64UrlPayload);
 
         $response = [
             "status" => "success",
@@ -51,8 +51,8 @@ class Auth
             "data" => []
         ];
 
-        if (isset($response['exp']) && $response['exp'] < time()) {
-            $response = [
+        if (isset($payload['exp']) && $payload['exp'] < time()) {
+            return = [
                 "status" => "error",
                 "code" => 401,
                 "message" => "Token has expired.",
@@ -62,7 +62,7 @@ class Auth
 
         $validSignature = $this->base64UrlEncode(hash_hmac('SHA256', "$base64UrlHeader.$base64UrlPayload", $this->secretKey, true));
         if ($validSignature !== $signature) {
-            $response = [
+            return = [
                 "status" => "error",
                 "code" => 400,
                 "message" => "Token is invalid.",
