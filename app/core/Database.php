@@ -99,7 +99,7 @@ class Database
     public function filter(string $string): string
     {
 
-        $sql['result'] = mysqli_real_escape_string(mysql: $this->getConnection(), $string);
+        $sql['result'] = mysqli_real_escape_string(mysql: $this->getConnection(), string: $string);
 
         return $sql['result'];
 
