@@ -18,4 +18,15 @@ class AuthTest extends Controller
 
     }
 
+    public function check()
+    {
+
+        if ($data['response'] = $this->model('AuthTestModel')->Check()) {
+
+            $this->view('api/index', $data);
+
+        }
+
+    }
+
 }
