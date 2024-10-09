@@ -40,7 +40,7 @@ class Auth
         #$payload = $this->base64UrlDecode($base64UrlPayload);
 
         $payload = [
-            "status_code" => 200,
+            "status" => 200,
             "message" => "success"
         ];
 
