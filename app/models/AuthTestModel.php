@@ -42,20 +42,10 @@ class AuthTestModel extends Model
     public function Check()
     {
         if ($input = json_decode(file_get_contents("php://input"), true)) {
-            if ($this->auth->verifyJwt($input['token'])) {
-                $payload = [
-                    "message" => "success"
-                ];
-
-                return json_encode([
-                    "status" => "200",
-                    "message" => "success"
-                ]);
+            if ($response = $this->auth->verifyJwt($input['token'])) {
+                return json_encode($response);
             } else {
-                return json_encode([
-                    "status" => "401",
-                    "message" => "Invalid token!"
-                ]);
+                return json_encode($response);
             }
         } else {
             return json_encode([
