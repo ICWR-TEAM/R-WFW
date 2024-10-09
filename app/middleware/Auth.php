@@ -64,7 +64,7 @@ class Auth
         if ($validSignature !== $signature) {
             return [
                 "status" => "error",
-                "code" => 401,
+                "code" => 400,
                 "message" => "Token is invalid.",
                 "data" => []
             ];
