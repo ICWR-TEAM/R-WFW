@@ -16,7 +16,7 @@ class AuthTestModel extends Model
                     "message" => "success"
                 ];
                 
-                $jwt = $this->auth->generateJwt($payload, 1800);
+                $jwt = $this->auth->generateJwt($payload, 3600);
 
                 return json_encode([
                     "status" => "200",
