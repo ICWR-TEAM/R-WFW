@@ -25,7 +25,7 @@ class Database
 
     public function closeConnection(): void
     {
-        mysqli_close($this->conn);
+        mysqli_close(mysql: $this->conn);
     }
 
     public function query(string $query): bool|mysqli_result
