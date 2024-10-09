@@ -9,10 +9,10 @@ class Router
 
     private $routes = [];
 
-    private function Controller($handler, $parameter = [])
+    private function Controller($handler, $parameter = []): void
     {
 
-        $split_handler = explode("::", $handler);
+        $split_handler = explode(separator: "::", string: $handler);
 
         $controller_file = '../app/controllers/' . $split_handler[0] . '.php';
 
@@ -35,7 +35,7 @@ class Router
 
     }
 
-    public function Route($method, $url, $handler)
+    public function Route($method, $url, $handler): void
     {
 
         $this->routes[] = [
@@ -48,42 +48,42 @@ class Router
 
     }
 
-    public function handleRoute()
+    public function handleRoute(): void
     {
 
-        $parts = explode('/', BASEURL);
+        $parts = explode(separator: '/', string: BASEURL);
 
-        if ($specificPart = implode('/', array_slice($parts, 3))) {
+        if ($specificPart = implode(separator: '/', array: array_slice(array: $parts, offset: 3))) {
 
-            $url = '/' . ltrim($_SERVER['REQUEST_URI'], $specificPart . '/');
-            $url = rtrim($url, '/');
+            $url = '/' . ltrim(string: $_SERVER['REQUEST_URI'], characters: $specificPart . '/');
+            $url = rtrim(string: $url, characters: '/');
 
         } else {
 
-            $url = rtrim($_SERVER['REQUEST_URI'], '/');
+            $url = rtrim(string: $_SERVER['REQUEST_URI'], characters: '/');
 
         }
 
-        $url = explode('?', $url)[0];
-        $url_parts = explode('/', $url);
+        $url = explode(separator: '?', string: $url)[0];
+        $url_parts = explode(separator: '/', string: $url);
         $method_not_allowed = false;
 
         foreach ($this->routes as $route)
         {
 
-            $route_parts = $this->parseURLFromRoute($route['url']);
+            $route_parts = $this->parseURLFromRoute(routeUrl: $route['url']);
 
-            if (count($url_parts) === count($route_parts)) {
+            if (count(value: $url_parts) === count(value: $route_parts)) {
 
                 $parameters = [];
                 $match = true;
 
-                for ($i = 0; $i < count($url_parts); $i++)
+                for ($i = 0; $i < count(value: $url_parts); $i++)
                 {
 
-                    if (!empty($route_parts[$i]) && $route_parts[$i][0] === '{' && $route_parts[$i][strlen($route_parts[$i]) - 1] === '}') {
+                    if (!empty($route_parts[$i]) && $route_parts[$i][0] === '{' && $route_parts[$i][strlen(string: $route_parts[$i]) - 1] === '}') {
                         
-                        $parameter_name = substr($route_parts[$i], 1, -1);
+                        $parameter_name = substr(string: $route_parts[$i], offset: 1, length: -1);
                         $parameters[$parameter_name] = $url_parts[$i];
 
                     } elseif ($url_parts[$i] !== $route_parts[$i]) {
@@ -97,9 +97,9 @@ class Router
 
                 if ($match) {
 
-                    if ($_SERVER['REQUEST_METHOD'] === strtoupper($route['method'])) {
+                    if ($_SERVER['REQUEST_METHOD'] === strtoupper(string: $route['method'])) {
                         
-                        $this->Controller($route['handler'], $parameters);
+                        $this->Controller(handler: $route['handler'], parameter: $parameters);
                         return;
 
                     } else {
@@ -116,23 +116,23 @@ class Router
 
         if ($method_not_allowed) {
 
-            header("HTTP/1.0 405 Method Not Allowed");
+            header(header: "HTTP/1.0 405 Method Not Allowed");
             echo 'Method Not Allowed!';
 
         } else {
 
-            header("HTTP/1.0 404 Not Found");
+            header(header: "HTTP/1.0 404 Not Found");
             echo 'Not Found!';
             
         }
 
     }
 
-    private function parseURLFromRoute($routeUrl)
+    private function parseURLFromRoute($routeUrl): array|bool
     {
 
-        $url = rtrim($routeUrl, '/');
-        $url_parts = explode('/', $url);
+        $url = rtrim(string: $routeUrl, characters: '/');
+        $url_parts = explode(separator: '/', string: $url);
 
         return $url_parts;
         

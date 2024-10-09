@@ -7,7 +7,7 @@ use App\Core\Model;
 class TestModel extends Model
 {
 
-    public function testFunc()
+    public function testFunc(): string
     {
 
         return 'Test Models';

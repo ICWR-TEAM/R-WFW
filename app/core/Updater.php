@@ -12,24 +12,24 @@ class Updater
 
     }
 
-    private function recursiveCopy($source, $destination)
+    private function recursiveCopy($source, $destination): void
     {
 
-        if (is_dir($source)) {
+        if (is_dir(filename: $source)) {
 
-            if (!is_dir($destination)) {
+            if (!is_dir(filename: $destination)) {
 
                 $not_update = "app\/models\/|app\/controllers|app\/views";
             
-                if (!preg_match("/$not_update/", $destination)) {
+                if (!preg_match(pattern: "/$not_update/", subject: $destination)) {
 
-                    mkdir($destination, 0777, true);
+                    mkdir(directory: $destination, permissions: 0777, recursive: true);
 
                 }
 
             }
 
-            $dir_contents = scandir($source);
+            $dir_contents = scandir(directory: $source);
 
             foreach ($dir_contents as $item) {
 
@@ -41,7 +41,7 @@ class Updater
 
                 $source_path = $source . '/' . $item;
                 $destination_path = $destination . '/' . $item;
-                $this->recursiveCopy($source_path, $destination_path);
+                $this->recursiveCopy(source: $source_path, destination: $destination_path);
 
             }
 
@@ -49,9 +49,9 @@ class Updater
 
             $not_update = "config\/Config.php|app\/models\/|app\/controllers|app\/views\/|Database\/test.sql";
             
-            if (!preg_match("/$not_update/", $destination)) {
+            if (!preg_match(pattern: "/$not_update/", subject: $destination)) {
 
-                if (copy($source, $destination)) {
+                if (copy(from: $source, to: $destination)) {
 
                     $this->true = true;
 
@@ -67,7 +67,7 @@ class Updater
 
     }
 
-    public function install()
+    public function install(): string
     {
 
         $url = "https://github.com/ICWR-TEAM/R-WFW/archive/refs/heads/main.zip";
@@ -79,11 +79,11 @@ class Updater
 
         try {
 
-            if (file_put_contents($zip_path, file_get_contents($url))) {
+            if (file_put_contents(filename: $zip_path, data: file_get_contents(filename: $url))) {
 
-                if ($this->unzip($zip_path, $extract_path)) {
+                if ($this->unzip(zip_path: $zip_path, extract_path: $extract_path)) {
     
-                    $this->recursiveCopy($extracted, $to);
+                    $this->recursiveCopy(source: $extracted, destination: $to);
     
                     if ($this->true) {
     
@@ -115,14 +115,14 @@ class Updater
 
     }
 
-    private function unzip($zip_path, $extract_path)
+    private function unzip($zip_path, $extract_path): bool
     {
 
         $zip = new \ZipArchive;
 
-        if ($zip->open($zip_path) === true) {
+        if ($zip->open(filename: $zip_path) === true) {
 
-            if ($zip->extractTo($extract_path)) {
+            if ($zip->extractTo(pathto: $extract_path)) {
 
                 $zip->close();
                 return true;

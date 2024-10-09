@@ -7,20 +7,20 @@ use App\Core\Controller;
 class TestDB extends Controller
 {
 
-    public function index()
+    public function index(): void
     {
 
         $data['title'] = 'Test';
 
-        $this->view('templates/header', $data);
+        $this->view(view: 'templates/header', data: $data);
 
-        if ($data['result'] = $this->model('TestDBModel')->testFunc()) {
+        if ($data['result'] = $this->model(model: 'TestDBModel')->testFunc()) {
 
-            $this->view('home/db', $data);
+            $this->view(view: 'home/db', data: $data);
 
         }
 
-        $this->view('templates/footer', $data);
+        $this->view(view: 'templates/footer', data: $data);
 
     }
 

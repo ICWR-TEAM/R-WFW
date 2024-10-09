@@ -7,14 +7,14 @@ use App\Core\Model;
 class DataTest extends Model
 {
 
-    public function addData()
+    public function addData(): void
     {
 
         //
 
     }
 
-    public function viewData()
+    public function viewData(): void
     {
 
         //

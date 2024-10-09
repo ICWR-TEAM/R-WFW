@@ -7,7 +7,7 @@ use App\Core\Controller;
 class About extends Controller
 {
 
-    public function index()
+    public function index(): void
     {
 
         $data['title'] = 'About Us - incrustwerush.org';

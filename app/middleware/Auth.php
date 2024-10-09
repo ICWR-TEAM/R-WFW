@@ -11,28 +11,28 @@ class Auth
         $this->secretKey = $secretKey;
     }
 
-    public function generateJwt($payload, $expired = 3600)
+    public function generateJwt($payload, $expired = 3600): string
     {
-        $exp = is_int($expired) ? $expired : 3600;
+        $exp = is_int(value: $expired) ? $expired : 3600;
         
-        $header = json_encode(['alg' => 'HS256', 'typ' => 'JWT']);
-        $payload = json_encode([
+        $header = json_encode(value: ['alg' => 'HS256', 'typ' => 'JWT']);
+        $payload = json_encode(value: [
             'iat' => time(),
             'exp' => time() + $exp,
             'data' => $payload
         ]);
 
-        $base64UrlHeader = $this->base64UrlEncode($header);
-        $base64UrlPayload = $this->base64UrlEncode($payload);
-        $signature = $this->base64UrlEncode(hash_hmac('SHA256', "$base64UrlHeader.$base64UrlPayload", $this->secretKey, true));
+        $base64UrlHeader = $this->base64UrlEncode(data: $header);
+        $base64UrlPayload = $this->base64UrlEncode(data: $payload);
+        $signature = $this->base64UrlEncode(data: hash_hmac(algo: 'SHA256', data: "$base64UrlHeader.$base64UrlPayload", key: $this->secretKey, binary: true));
 
         return "$base64UrlHeader.$base64UrlPayload.$signature";
     }
 
-    public function verifyJwt($token)
+    public function verifyJwt($token): array
     {
-        $segments = explode('.', $token);
-        if (count($segments) !== 3) {
+        $segments = explode(separator: '.', string: $token);
+        if (count(value: $segments) !== 3) {
             return [
                 "status" => "error",
                 "code" => 400,
@@ -41,7 +41,7 @@ class Auth
         }
 
         list($base64UrlHeader, $base64UrlPayload, $signature) = $segments;
-        $payload = $this->base64UrlDecode($base64UrlPayload);
+        $payload = $this->base64UrlDecode(data: $base64UrlPayload);
 
         if (isset($payload['exp']) && $payload['exp'] < time()) {
             return [
@@ -51,7 +51,7 @@ class Auth
             ];
         }
 
-        $validSignature = $this->base64UrlEncode(hash_hmac('SHA256', "$base64UrlHeader.$base64UrlPayload", $this->secretKey, true));
+        $validSignature = $this->base64UrlEncode(data: hash_hmac(algo: 'SHA256', data: "$base64UrlHeader.$base64UrlPayload", key: $this->secretKey, binary: true));
         if ($validSignature !== $signature) {
             return [
                 "status" => "error",
@@ -68,17 +68,17 @@ class Auth
         ];
     }
 
-    private function base64UrlEncode($data)
+    private function base64UrlEncode($data): string
     {
-        return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
+        return rtrim(string: strtr(string: base64_encode(string: $data), from: '+/', to: '-_'), characters: '=');
     }
 
-    private function base64UrlDecode($data)
+    private function base64UrlDecode($data): mixed
     {
-        $padding = strlen($data) % 4;
+        $padding = strlen(string: $data) % 4;
         if ($padding > 0) {
-            $data .= str_repeat('=', 4 - $padding);
+            $data .= str_repeat(string: '=', times: 4 - $padding);
         }
-        return json_decode(base64_decode(strtr($data, '-_', '+/')), true);
+        return json_decode(json: base64_decode(string: strtr(string: $data, from: '-_', to: '+/')), associative: true);
     }
 }

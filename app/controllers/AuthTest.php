@@ -7,7 +7,7 @@ use App\Core\Controller;
 class AuthTest extends Controller
 {
 
-    public function login()
+    public function login(): void
     {
 
         if ($data['response'] = $this->model('AuthTestModel')->Auth()) {
@@ -18,12 +18,12 @@ class AuthTest extends Controller
 
     }
 
-    public function check()
+    public function check(): void
     {
 
-        if ($data['response'] = $this->model('AuthTestModel')->Check()) {
+        if ($data['response'] = $this->model(model: 'AuthTestModel')->Check()) {
 
-            $this->view('api/index', $data);
+            $this->view(view: 'api/index', data: $data);
 
         }
 

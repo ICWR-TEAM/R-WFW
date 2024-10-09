@@ -8,7 +8,7 @@ class TestDBModel extends Model
 {
     public $db;
 
-    public function testFunc()
+    public function testFunc(): mixed
     {
 
         $output = $this->db->query_fetch_array("SELECT * FROM test");

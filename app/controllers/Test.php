@@ -8,25 +8,25 @@ use App\Core\Flasher;
 class Test extends Controller
 {
 
-    public function index()
+    public function index(): void
     {
 
         $data['title'] = 'Test';
 
-        $this->view('templates/header', $data);
+        $this->view(view: 'templates/header', data: $data);
 
-        if ($msg = $this->model('TestModel')->testFunc()) {
+        if ($msg = $this->model(model: 'TestModel')->testFunc()) {
 
-            Flasher::setFlash($msg, 'print', 'success');
+            Flasher::setFlash(msg: $msg, act: 'print', type: 'success');
             Flasher::flash();
 
         }
 
-        $this->view('templates/footer', $data);
+        $this->view(view: 'templates/footer', data: $data);
 
     }
 
-    public function post()
+    public function post(): void
     {
 
         echo 'Test Post';

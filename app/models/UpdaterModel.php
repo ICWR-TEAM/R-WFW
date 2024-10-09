@@ -7,7 +7,7 @@ use App\Core\Model;
 class UpdaterModel extends Model
 {
 
-    public function install()
+    public function install(): mixed
     {
 
         $output = $this->updater->install();

@@ -29,7 +29,7 @@ class Model
             
         }
 
-        $this->auth = new Auth(SECRET_KEY_JWT);
+        $this->auth = new Auth(secretKey: SECRET_KEY_JWT);
 
     }
 

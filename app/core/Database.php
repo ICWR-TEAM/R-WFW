@@ -9,7 +9,7 @@ class Database
     public function __construct()
     {
 
-        $this->conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+        $this->conn = mysqli_connect(hostname: DB_HOST, username: DB_USER, password: DB_PASS, database: DB_NAME);
 
         if (!$this->conn) {
 
@@ -19,24 +19,24 @@ class Database
 
     }
 
-    public function getConnection()
+    public function getConnection(): bool|mysqli
     {
 
         return $this->conn;
 
     }
 
-    public function closeConnection()
+    public function closeConnection(): void
     {
 
-        mysqli_close($this->conn);
+        mysqli_close(mysql: $this->conn);
 
     }
 
-    public function query($query)
+    public function query($query): bool|mysqli_result
     {
 
-        $sql['result'] = mysqli_query($this->getConnection(), $query);
+        $sql['result'] = mysqli_query(mysql: $this->getConnection(), query: $query);
 
         if ($sql['result']) {
 
@@ -44,21 +44,21 @@ class Database
 
         } else {
 
-            die("MySQL Error: " . mysqli_error($this->getConnection()));
+            die("MySQL Error: " . mysqli_error(mysql: $this->getConnection()));
 
         }
 
     }
 
-    public function query_fetch_array($query)
+    public function query_fetch_array($query): array|bool|mysqli_result
     {
 
-        $sql['query'] = $this->query($query);
+        $sql['query'] = $this->query(query: $query);
         $sql['result'] = [];
 
         $no = 1;
 
-        while($row = mysqli_fetch_array($sql['query'] )) 
+        while($row = mysqli_fetch_array(result: $sql['query'] )) 
         {
 
             $sql['result'][$no++] = $row;
@@ -69,37 +69,37 @@ class Database
 
     }
 
-    public function fetch_array($query)
+    public function fetch_array($query): array|bool|null
     {
 
-        $sql['result'] = mysqli_fetch_array($query);
+        $sql['result'] = mysqli_fetch_array(result: $query);
 
         return $sql['result'];
 
     }
 
-    public function query_num_rows($query)
+    public function query_num_rows($query): int|string
     {
 
-        $sql['result'] = mysqli_num_rows($this->query($query));
+        $sql['result'] = mysqli_num_rows(result: $this->query(query: $query));
 
         return $sql['result'];
 
     }
 
-    public function num_rows($query)
+    public function num_rows($query): int|string
     {
 
-        $sql['result'] = mysqli_num_rows($query);
+        $sql['result'] = mysqli_num_rows(result: $query);
 
         return $sql['result'];
 
     }
 
-    public function filter($string)
+    public function filter($string): string
     {
 
-        $sql['result'] = mysqli_real_escape_string($this->getConnection(), $string);
+        $sql['result'] = mysqli_real_escape_string(mysql: $this->getConnection(), $string);
 
         return $sql['result'];
 

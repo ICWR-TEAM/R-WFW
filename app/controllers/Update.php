@@ -7,7 +7,7 @@ use App\Core\Controller;
 class Update extends Controller
 {
 
-    public function install()
+    public function install(): void
     {
 
         $data['title'] = 'R-WFW (Rusher Web FrameWork)';
@@ -17,7 +17,7 @@ class Update extends Controller
 
             if (UPDATER_PASSWD === $_GET['passwd']) {
 
-                echo $this->model("UpdaterModel")->install();
+                echo $this->model(model: "UpdaterModel")->install();
             
             } else {
 
