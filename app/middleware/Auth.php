@@ -35,8 +35,8 @@ class Auth
         if (count($segments) !== 3) {
             return [
                 "status" => "error",
-                "code" => 401,
-                "message" => "Token Expired!",
+                "code" => 400,
+                "message" => "Token is invalid.",
                 "data" => []
             ];
         }
