@@ -18,7 +18,7 @@ class Auth
         $header = json_encode(['alg' => 'HS256', 'typ' => 'JWT']);
         $payload = json_encode([
             'iat' => time(),
-            'exp' => $exp,
+            'exp' => time() + $exp,
             'data' => $payload
         ]);
 
