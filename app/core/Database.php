@@ -41,7 +41,7 @@ class Database
 
     public function query_fetch_array(string $query): array|bool
     {
-        $result = $this->query($query);
+        $result = $this->query(query: $query);
         $rows = [];
 
         while ($row = mysqli_fetch_array(result: $result, mode: MYSQLI_ASSOC)) {
@@ -58,7 +58,7 @@ class Database
 
     public function query_num_rows(string $query): int
     {
-        $result = $this->query($query);
+        $result = $this->query(query: $query);
         return mysqli_num_rows(result: $result);
     }
 
