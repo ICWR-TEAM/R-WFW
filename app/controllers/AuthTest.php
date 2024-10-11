@@ -12,7 +12,7 @@ class AuthTest extends Controller
 
         if ($data['response'] = $this->model('AuthTestModel')->Auth()) {
 
-            $this->view('api/index', $data);
+            $this->view(view: 'api/index', data: $data);
 
         }
 
