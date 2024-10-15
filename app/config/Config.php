@@ -26,4 +26,4 @@ define(constant_name: 'ANTI_XSS', value: false); // true or false
 
 // JWT Secret Key
 
-define(constant_name: 'SECRET_KEY_JWT', value: 'secret_key_jwt'); // Change JWT Secret Key
+define(constant_name: 'SECRET_KEY_JWT', value: 'incrustwerush.org'); // Change JWT Secret Key
