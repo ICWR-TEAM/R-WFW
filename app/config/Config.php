@@ -24,6 +24,6 @@ define(constant_name: 'ALLOW_ALL_CORS', value: false); // true or false
 define(constant_name: 'ALL_SECURITY_HEADERS', value: false); // true or false
 define(constant_name: 'ANTI_XSS', value: false); // true or false
 
-// Secret Key JWT
+// JWT Secret Key
 
-define(constant_name: 'SECRET_KEY_JWT', value: 'secret_key_jwt');
+define(constant_name: 'SECRET_KEY_JWT', value: 'secret_key_jwt'); // Change JWT Secret Key
