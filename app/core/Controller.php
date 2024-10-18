@@ -2,8 +2,18 @@
 
 namespace App\Core;
 
+use App\Core\Config;
+use App\Core\Security;
+
 class Controller
 {
+
+    public function __construct()
+    {
+
+        new Config();
+        new Security();
+    }
 
     public function view(string $view, array $data = []): void
     {
