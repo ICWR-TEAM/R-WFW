@@ -15,7 +15,6 @@ class Auth
     {
 
         $sKey = $key ? $key : $this->secretKey;
-
         $exp = is_int(value: $expired) ? $expired : 3600;
         
         $header = json_encode(value: ['alg' => 'HS256', 'typ' => 'JWT']);
@@ -36,7 +35,6 @@ class Auth
     {
 
         $sKey = $key ? $key : $this->secretKey;
-
         $segments = explode(separator: '.', string: $token);
         if (count(value: $segments) !== 3) {
 
