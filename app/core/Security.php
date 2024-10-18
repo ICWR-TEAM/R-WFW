@@ -15,38 +15,41 @@ class Security
 
     private function antiXSS(): void
     {
-
-        if (!empty($_GET)){
-
-            $block_chars = "\"|'|<|>|\.|\(|\)|=|%";
-
-            foreach($_GET as $key => $value) {
-
-                if (preg_match(pattern: "/$block_chars/", subject: strtolower(string: $_GET[$key]))) {
-
+        if (!empty($_GET)) {
+            foreach ($_GET as $key => $value) {
+                if (strpos(haystack: $key, needle: '<') !== false || strpos(haystack: $key, needle: '>') !== false ||
+                    strpos(haystack: $value, needle: '<') !== false || strpos(haystack: $value, needle: '>') !== false) {
                     echo $this->block();
                     exit();
-
                 }
-
             }
-
         }
 
-        if (!empty(file_get_contents(filename: 'php://input'))) {
+        $inputData = file_get_contents(filename: 'php://input');
+        if (!empty($inputData)) {
+            $decodedInput = json_decode(json: $inputData, associative: true);
 
-            $block_chars = "\"|'|<|>|\.|\(|\)|=|%";
-
-            if (preg_match(pattern: "/$block_chars/", subject: strtolower(string: $_GET[$key]))) {
-
-                echo $this->block();
-                exit();
-
+            if (json_last_error() === JSON_ERROR_NONE) {
+                foreach ($decodedInput as $key => $value) {
+                    if (strpos(haystack: $key, needle: '<') !== false || strpos(haystack: $key, needle: '>') !== false ||
+                        strpos(haystack: $value, needle: '<') !== false || strpos(haystack: $value, needle: '>') !== false) {
+                        echo $this->block();
+                        exit();
+                    }
+                }
+            } else {
+                parse_str(string: $inputData, result: $postData);
+                foreach ($postData as $key => $value) {
+                    if (strpos(haystack: $key, needle: '<') !== false || strpos(haystack: $key, needle: '>') !== false ||
+                        strpos(haystack: $value, needle: '<') !== false || strpos(haystack: $value, needle: '>') !== false) {
+                        echo $this->block();
+                        exit();
+                    }
+                }
             }
-
         }
-
     }
+
 
     private function allSecurityHeader(): void
     {
