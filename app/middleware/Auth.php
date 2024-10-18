@@ -33,10 +33,13 @@ class Auth
     {
         $segments = explode(separator: '.', string: $token);
         if (count(value: $segments) !== 3) {
+
+            header(header: "HTTP/1.1 400 Bad Request");
+
             return [
                 "status" => "error",
                 "code" => 400,
-                "message" => "Token is valid."
+                "message" => "Token is invalid."
             ];
         }
 
@@ -44,6 +47,9 @@ class Auth
         $payload = $this->base64UrlDecode(data: $base64UrlPayload);
 
         if (isset($payload['exp']) && $payload['exp'] < time()) {
+
+            header(header: "HTTP/1.1 401 Unauthorized");
+
             return [
                 "status" => "error",
                 "code" => 401,
@@ -53,12 +59,17 @@ class Auth
 
         $validSignature = $this->base64UrlEncode(data: hash_hmac(algo: 'SHA256', data: "$base64UrlHeader.$base64UrlPayload", key: $this->secretKey, binary: true));
         if ($validSignature !== $signature) {
+
+            header(header: "HTTP/1.1 400 Bad Request");
+
             return [
                 "status" => "error",
                 "code" => 400,
-                "message" => "Signature is valid."
+                "message" => "Signature is invalid."
             ];
         }
+
+        header(header: "HTTP/1.1 200 OK");
 
         return [
             "status" => "success",
