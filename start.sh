@@ -30,8 +30,8 @@ FROM php:8.1-fpm
 
 RUN apt-get update && apt-get install -y \
     nginx \
-    libcurl4-openssl-dev \
-    && docker-php-ext-install curl mysqli pdo pdo_mysql
+    libcurl4-openssl-dev && \
+    docker-php-ext-install curl mysqli pdo pdo_mysql
 
 COPY default.conf /etc/nginx/sites-available/default
 
