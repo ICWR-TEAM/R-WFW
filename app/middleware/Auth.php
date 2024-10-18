@@ -11,8 +11,11 @@ class Auth
         $this->secretKey = $secretKey;
     }
 
-    public function generateJwt(array $payload, int $expired = 3600): string
+    public function generateJwt(array $payload, int $expired = 3600, string $key = ''): string
     {
+
+        $sKey = $key ? $key : $this->secretKey;
+
         $exp = is_int(value: $expired) ? $expired : 3600;
         
         $header = json_encode(value: ['alg' => 'HS256', 'typ' => 'JWT']);
@@ -24,13 +27,16 @@ class Auth
 
         $base64UrlHeader = $this->base64UrlEncode(data: $header);
         $base64UrlPayload = $this->base64UrlEncode(data: $payload);
-        $signature = $this->base64UrlEncode(data: hash_hmac(algo: 'SHA256', data: "$base64UrlHeader.$base64UrlPayload", key: $this->secretKey, binary: true));
+        $signature = $this->base64UrlEncode(data: hash_hmac(algo: 'SHA256', data: "$base64UrlHeader.$base64UrlPayload", key: $sKey, binary: true));
 
         return "$base64UrlHeader.$base64UrlPayload.$signature";
     }
 
-    public function verifyJwt(string $token): array
+    public function verifyJwt(string $token, string $key = ''): array
     {
+
+        $sKey = $key ? $key : $this->secretKey;
+
         $segments = explode(separator: '.', string: $token);
         if (count(value: $segments) !== 3) {
 
@@ -57,7 +63,7 @@ class Auth
             ];
         }
 
-        $validSignature = $this->base64UrlEncode(data: hash_hmac(algo: 'SHA256', data: "$base64UrlHeader.$base64UrlPayload", key: $this->secretKey, binary: true));
+        $validSignature = $this->base64UrlEncode(data: hash_hmac(algo: 'SHA256', data: "$base64UrlHeader.$base64UrlPayload", key: $sKey, binary: true));
         if ($validSignature !== $signature) {
 
             header(header: "HTTP/1.1 400 Bad Request");
