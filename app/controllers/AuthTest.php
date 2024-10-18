@@ -10,7 +10,7 @@ class AuthTest extends Controller
     public function login(): void
     {
 
-        if ($data['response'] = $this->model('AuthTestModel')->Auth()) {
+        if ($data['response'] = $this->model(model: 'AuthTestModel')->Auth()) {
 
             $this->view(view: 'api/index', data: $data);
 
