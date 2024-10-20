@@ -54,14 +54,14 @@ Use this for mysqli query :
 You Must Active USE Database on Config
 
 ```php
-define('DB_USE', true);
+define(constant_name: 'DB_USE', value: true);
 ```
 
 On Model Function Use
 
 ```php
 $sql['query'] = "SELECT test FROM example";
-$sql['result'] = $this->db->query($query);
+$sql['result'] = $this->db->query(query: $query);
 ```
 
 ---
