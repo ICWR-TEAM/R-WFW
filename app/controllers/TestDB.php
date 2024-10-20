@@ -3,9 +3,6 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
-use App\Core\ErrorHandling;
-
-new ErrorHandling;
 
 class TestDB extends Controller
 {
@@ -21,6 +18,6 @@ class TestDB extends Controller
         }
 
         $this->view(view: 'templates/footer', data: $data);
-    }
 
+    }
 }
