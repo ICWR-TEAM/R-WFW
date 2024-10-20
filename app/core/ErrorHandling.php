@@ -6,25 +6,25 @@ class ErrorHandling
 {
     public function __construct()
     {
-        set_error_handler([$this, 'customError']);
-        set_exception_handler([$this, 'customException']);
+        set_error_handler(callback: [$this, 'customError']);
+        set_exception_handler(callback: [$this, 'customException']);
     }
 
-    public function customError($errno, $errstr, $errfile, $errline)
+    public function customError(string $errno, string $errstr, string $errfile, int $errline): void
     {
         $errorMessage = "<b>Error:</b> [$errno] $errstr <br> in <b>$errfile</b> on line <b>$errline</b>";
-        error_log("Error: [$errno] $errstr in $errfile on line $errline\n", 3, '../tmp/errors.log');
-        echo $this->formatError($errorMessage);
+        error_log(message: "Error: [$errno] $errstr in $errfile on line $errline\n", message_type: 3, destination: '../tmp/' . date(format: "Y-m-d_H:i:s") . '_errors.log');
+        echo $this->formatError(message: $errorMessage);
     }
 
-    public function customException($exception)
+    public function customException(string $exception): void
     {
         $errorMessage = "<b>Uncaught exception:</b> " . $exception->getMessage() . "<br> in <b>" . $exception->getFile() . "</b> on line <b>" . $exception->getLine() . "</b>";
-        error_log("Uncaught exception: " . $exception->getMessage() . " in " . $exception->getFile() . " on line " . $exception->getLine() . "\n", 3, '../tmp/errors.log');
-        echo $this->formatError($errorMessage);
+        error_log(message: "Uncaught exception: " . $exception->getMessage() . " in " . $exception->getFile() . " on line " . $exception->getLine() . "\n", message_type: 3, destination: '../tmp/' . date(format: "Y-m-d_H:i:s") . '_errors.log');
+        echo $this->formatError(message: $errorMessage);
     }
 
-    private function formatError($message)
+    private function formatError(string $message): string
     {
         return "<div style='color: red; border: 1px solid red; padding: 10px; margin: 10px 0;'>$message</div>";
     }
