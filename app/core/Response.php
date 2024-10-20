@@ -50,11 +50,11 @@ class Response
         505 => 'HTTP Version Not Supported',
     ];
 
-    public static function setStatusCode($statusCode)
+    public static function setStatusCode($statusCode): void
     {
-        if (!array_key_exists($statusCode, self::$statusTexts)) {
+        if (!array_key_exists(key: $statusCode, array: self::$statusTexts)) {
             $statusCode = 500;
         }
-        header("HTTP/1.1 $statusCode " . self::$statusTexts[$statusCode]);
+        header(header: "HTTP/1.1 $statusCode " . self::$statusTexts[$statusCode]);
     }
 }
