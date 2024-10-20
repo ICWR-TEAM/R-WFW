@@ -10,6 +10,7 @@ $route = new Router();
 
 $route->Route(method: 'get', url: '/', handler: "Home::index");
 $route->Route(method: 'get', url: '/about', handler: "About::index");
+$route->Route(method: 'get', url: '/error', handler: "Error::index");
 $route->Route(method: 'get', url: '/test', handler: "Test::index");
 $route->Route(method: 'get', url: '/testparameter/{1}/testagain/{2}/', handler: "TestParameter::index");
 $route->Route(method: 'get', url: '/testdb', handler: "TestDB::index");

@@ -9,9 +9,7 @@ class TestModel extends Model
 
     public function testFunc(): string
     {
-
         return 'Test Models';
-
     }
 
 }

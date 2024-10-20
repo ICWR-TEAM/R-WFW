@@ -13,21 +13,14 @@ class Model
 
     public function __construct()
     {
-
         if (UPDATER) {
-
             $this->updater = new Updater();
-            
         }
 
         if (DB_USE) {
-
             $this->db = new Database();
-            
         }
 
         $this->auth = new Auth(secretKey: SECRET_KEY_JWT);
-
     }
-
 }

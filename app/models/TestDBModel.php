@@ -10,10 +10,8 @@ class TestDBModel extends Model
 
     public function testFunc(): mixed
     {
-
         $output = $this->db->query_fetch_array(query: "SELECT * FROM test");
 
         return $output;
     }
-
 }

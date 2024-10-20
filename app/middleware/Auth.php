@@ -2,6 +2,8 @@
 
 namespace App\Middleware;
 
+use App\Core\Response;
+
 class Auth
 {
     private $secretKey;
@@ -16,7 +18,7 @@ class Auth
 
         $sKey = $key ? $key : $this->secretKey;
         $exp = is_int(value: $expired) ? $expired : 3600;
-        
+
         $header = json_encode(value: ['alg' => 'HS256', 'typ' => 'JWT']);
         $payload = json_encode(value: [
             'iat' => time(),
@@ -38,7 +40,7 @@ class Auth
         $segments = explode(separator: '.', string: $token);
         if (count(value: $segments) !== 3) {
 
-            header(header: "HTTP/1.1 400 Bad Request");
+            Response::setStatusCode(400);
 
             return [
                 "status" => "error",
@@ -52,7 +54,7 @@ class Auth
 
         if (isset($payload['exp']) && $payload['exp'] < time()) {
 
-            header(header: "HTTP/1.1 401 Unauthorized");
+            Response::setStatusCode(401);
 
             return [
                 "status" => "error",
@@ -64,7 +66,7 @@ class Auth
         $validSignature = $this->base64UrlEncode(data: hash_hmac(algo: 'SHA256', data: "$base64UrlHeader.$base64UrlPayload", key: $sKey, binary: true));
         if ($validSignature !== $signature) {
 
-            header(header: "HTTP/1.1 400 Bad Request");
+            Response::setStatusCode(400);
 
             return [
                 "status" => "error",
@@ -73,7 +75,7 @@ class Auth
             ];
         }
 
-        header(header: "HTTP/1.1 200 OK");
+        Response::setStatusCode(200);
 
         return [
             "status" => "success",

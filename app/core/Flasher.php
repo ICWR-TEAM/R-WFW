@@ -7,7 +7,6 @@ class Flasher
 
     public static function setFlash(string $msg, string $act, string $type): void
     {
-
         $_SESSION['flash'] = [
 
             'msg' => $msg
@@ -19,17 +18,13 @@ class Flasher
             */
 
         ];
-
     }
 
     public static function flash(): void
     {
-        if(isset($_SESSION['flash'])) {
-
+        if (isset($_SESSION['flash'])) {
             echo '<script>alert("' . $_SESSION['flash']['msg'] . '");</script>';
             unset($_SESSION['flash']);
-
         }
     }
-
 }
