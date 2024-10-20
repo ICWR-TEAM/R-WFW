@@ -21,36 +21,44 @@ R-WFW (Rusher Web FrameWork) is a backend framework designed to simplify web app
 
 namespace App\Config\Config;
 
-define('BASEURL', 'http://localhost:8080');
+define(constant_name: 'BASEURL', value: 'http://localhost:8080');
 
 // Database
 
-define('DB_HOST', 'incrustwerush.org');
-define('DB_USER', 'incrustwerush.org');
-define('DB_PASS', 'incrustwerush.org');
-define('DB_NAME', 'incrustwerush.org');
+define(constant_name: 'DB_HOST', value: 'incrustwerush.org');
+define(constant_name: 'DB_USER', value: 'incrustwerush.org');
+define(constant_name: 'DB_PASS', value: 'incrustwerush.org');
+define(constant_name: 'DB_NAME', value: 'incrustwerush.org');
 
 // Configuration
 
-define('UPDATER', false); // true or false
-define('UPDATER_PASSWD', 'incrustwerush.org'); // Change Password for Update
-define('DEV_MODE', true); // true or false
-define('DB_USE', false); // true or false
-define('ALLOW_ALL_CORS', false); // true or false
+define(constant_name: 'UPDATER', value: false); // true or false
+define(constant_name: 'UPDATER_PASSWD', value: 'incrustwerush.org'); // Change Password for Update
+define(constant_name: 'DEV_MODE', value: true); // true or false
+define(constant_name: 'DB_USE', value: false); // true or false
+define(constant_name: 'ALLOW_ALL_CORS', value: false); // true or false
 
 // Security
 
-define('ALL_SECURITY_HEADERS', false); // true or false
-define('ANTI_XSS', false); // true or false
+define(constant_name: 'ALL_SECURITY_HEADERS', value: false); // true or false
+define(constant_name: 'ANTI_XSS', value: false); // true or false
+
+// JWT Secret Key
+
+define(constant_name: 'SECRET_KEY_JWT', value: 'incrustwerush.org'); // Change JWT Secret Key
+
 ```
+
 Use this for mysqli query :
-####
+
 You Must Active USE Database on Config
+
 ```php
 define('DB_USE', true);
 ```
-####
+
 On Model Function Use
+
 ```php
 $sql['query'] = "SELECT test FROM example";
 $sql['result'] = $this->db->query($query);
