@@ -17,7 +17,7 @@ class ErrorHandling
         echo $this->formatError(message: $errorMessage);
     }
 
-    public function customException(string $exception): void
+    public function customException(\Throwable $exception): void
     {
         $errorMessage = "<b>Uncaught exception:</b> " . $exception->getMessage() . "<br> in <b>" . $exception->getFile() . "</b> on line <b>" . $exception->getLine() . "</b>";
         error_log(message: "Uncaught exception: " . $exception->getMessage() . " in " . $exception->getFile() . " on line " . $exception->getLine() . "\n", message_type: 3, destination: '../tmp/' . date(format: "Y-m-d_H:i:s") . '_errors.log');
