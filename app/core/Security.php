@@ -16,7 +16,9 @@ class Security
     private function antiXSS(): void
     {
         if (!empty($_GET)) {
+            
             foreach ($_GET as $key => $value) {
+                
                 if (strpos(haystack: $key, needle: '<') !== false || strpos(haystack: $key, needle: '>') !== false ||
                     strpos(haystack: $value, needle: '<') !== false || strpos(haystack: $value, needle: '>') !== false) {
                     echo $this->block();
@@ -26,6 +28,7 @@ class Security
         }
 
         $inputData = file_get_contents(filename: 'php://input');
+        
         if (!empty($inputData)) {
             $decodedInput = json_decode(json: $inputData, associative: true);
 
