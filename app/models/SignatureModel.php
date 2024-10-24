@@ -11,6 +11,7 @@ class SignatureModel extends Model
     public function Create(): bool|string
     {
         if ($input = file_get_contents(filename: "php://input")) {
+
             if (json_decode(json: $input) !== null && json_last_error() === JSON_ERROR_NONE) {
                 
                 $signature = $this->auth->generateSignature(data: $input);
@@ -39,6 +40,7 @@ class SignatureModel extends Model
     public function Check(): bool|string
     {
         if (file_get_contents(filename: "php://input")) {
+
             if ($response = $this->auth->verifySignatureHeader()) {
                 return json_encode(value: $response);
             } else {
