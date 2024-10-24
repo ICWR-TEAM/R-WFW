@@ -13,7 +13,7 @@ class Error extends Controller
 
     public function index(): void
     {
-        Response::setStatusCode(500);
+        Response::setStatusCode(statusCode: 500);
         echo $data['title'];
     }
 }
