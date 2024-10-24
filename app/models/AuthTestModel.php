@@ -11,6 +11,7 @@ class AuthTestModel extends Model
     public function Auth(): bool|string
     {
         if ($input = json_decode(json: file_get_contents(filename: "php://input"), associative: true)) {
+
             if ($input['username'] === "username" && $input['password'] === "password") {
                 $payload = [
                     "message" => "success"
@@ -42,6 +43,7 @@ class AuthTestModel extends Model
     public function Check(): bool|string
     {
         if ($input = json_decode(json: file_get_contents(filename: "php://input"), associative: true)) {
+
             if ($response = $this->auth->verifyJwt(token: $input['token'])) {
                 return json_encode(value: $response);
             } else {
