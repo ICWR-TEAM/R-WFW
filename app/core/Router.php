@@ -62,6 +62,7 @@ class Router
 
                 for ($i = 0; $i < count(value: $url_parts); $i++)
                 {
+
                     if (!empty($route_parts[$i]) && $route_parts[$i][0] === '{' && $route_parts[$i][strlen(string: $route_parts[$i]) - 1] === '}') {
                         $parameter_name = substr(string: $route_parts[$i], offset: 1, length: -1);
                         $parameters[$parameter_name] = $url_parts[$i];
@@ -72,6 +73,7 @@ class Router
                 }
 
                 if ($match) {
+
                     if ($_SERVER['REQUEST_METHOD'] === strtoupper(string: $route['method'])) {
                         $this->Controller(handler: $route['handler'], parameter: $parameters);
                         return;
