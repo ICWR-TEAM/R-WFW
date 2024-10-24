@@ -6,11 +6,21 @@ use App\Core\Response;
 
 class Auth
 {
-    private $secretKey;
+    private string $secretKey;
+    private string $privateKey;
+    private string $publicKey;
 
-    public function __construct(string $secretKey)
+    public function __construct(string $secretKey, string $privateKeyPath = '', string $publicKeyPath = '')
     {
         $this->secretKey = $secretKey;
+
+        if ($privateKeyPath) {
+            $this->privateKey = file_get_contents(filename: $privateKeyPath);
+        }
+
+        if ($publicKeyPath) {
+            $this->publicKey = file_get_contents(filename: $publicKeyPath);
+        }
     }
 
     public function generateJwt(array $payload, int $expired = 3600, string $key = ''): string
@@ -40,8 +50,7 @@ class Auth
         $segments = explode(separator: '.', string: $token);
         if (count(value: $segments) !== 3) {
 
-            Response::setStatusCode(400);
-
+            Response::setStatusCode(statusCode: 400);
             return [
                 "status" => "error",
                 "code" => 400,
@@ -50,12 +59,10 @@ class Auth
         }
 
         list($base64UrlHeader, $base64UrlPayload, $signature) = $segments;
-        $payload = $this->base64UrlDecode(data: $base64UrlPayload);
-
+        $payload = $this->base64UrlDecodeJson(data: $base64UrlPayload);
         if (isset($payload['exp']) && $payload['exp'] < time()) {
 
-            Response::setStatusCode(401);
-
+            Response::setStatusCode(statusCode: 401);
             return [
                 "status" => "error",
                 "code" => 401,
@@ -66,8 +73,7 @@ class Auth
         $validSignature = $this->base64UrlEncode(data: hash_hmac(algo: 'SHA256', data: "$base64UrlHeader.$base64UrlPayload", key: $sKey, binary: true));
         if ($validSignature !== $signature) {
 
-            Response::setStatusCode(400);
-
+            Response::setStatusCode(statusCode: 400);
             return [
                 "status" => "error",
                 "code" => 400,
@@ -75,13 +81,74 @@ class Auth
             ];
         }
 
-        Response::setStatusCode(200);
-
+        Response::setStatusCode(statusCode: 200);
         return [
             "status" => "success",
             "code" => 200,
             "message" => "Token is valid.",
             "data" => $payload['data']
+        ];
+    }
+
+    public function verifyAuthHeader(): array
+    {
+        if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
+            $authHeader = $_SERVER['HTTP_AUTHORIZATION'];
+            if (preg_match(pattern: '/Bearer\s(\S+)/', subject: $authHeader, matches: $matches)) {
+                $bearerToken = $matches[1];
+                return $this->verifyJwt(token: $bearerToken);
+            }
+        }
+
+        return [
+            "status" => "500",
+            "message" => "error"
+        ];
+    }
+
+    public function generateSignature(string $data): string
+    {
+        openssl_sign(data: $data, signature: $signature, private_key: $this->privateKey, algorithm: OPENSSL_ALGO_SHA256);
+        $signature = $this->base64UrlEncode(data: openssl_digest(data: $signature, digest_algo: 'sha256', binary: true));
+        header(header: "X-Signature: " . $signature);
+        return $signature;
+    }
+
+
+    public function verifySignature(string $data, string $signature): bool
+    {
+        $data_sign = $this->generateSignature(data: $data);
+        return ($signature === $data_sign) ? true : false;
+    }
+
+    public function verifySignatureHeader(): array
+    {
+        $receivedSignature = $_SERVER['HTTP_X_SIGNATURE'] ?? '';
+        $requestBody = file_get_contents(filename: 'php://input');
+
+        if (!$receivedSignature) {
+            Response::setStatusCode(statusCode: 400);
+            return [
+                "status" => "error",
+                "code" => 400,
+                "message" => "Missing X-Signature header."
+            ];
+        }
+
+        $isValid = $this->verifySignature(data: $requestBody, signature: $receivedSignature);
+        if (!$isValid) {
+            Response::setStatusCode(statusCode: 403);
+            return [
+                "status" => "error",
+                "code" => 403,
+                "message" => "Invalid Signature."
+            ];
+        }
+
+        return [
+            "status" => "success",
+            "code" => 200,
+            "message" => "Valid Signature."
         ];
     }
 
@@ -91,6 +158,15 @@ class Auth
     }
 
     private function base64UrlDecode(string $data): mixed
+    {
+        $padding = strlen(string: $data) % 4;
+        if ($padding > 0) {
+            $data .= str_repeat(string: '=', times: 4 - $padding);
+        }
+        return base64_decode(string: strtr(string: $data, from: '-_', to: '+/'));
+    }
+
+    private function base64UrlDecodeJson(string $data): mixed
     {
         $padding = strlen(string: $data) % 4;
         if ($padding > 0) {

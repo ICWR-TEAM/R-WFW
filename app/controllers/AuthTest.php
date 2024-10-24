@@ -20,4 +20,11 @@ class AuthTest extends Controller
             $this->view(view: 'api/index', data: $data);
         }
     }
+
+    public function checkHeader(): void
+    {
+        if ($data['response'] = $this->model(model: 'AuthTestModel')->CheckHeader()) {
+            $this->view(view: 'api/index', data: $data);
+        }
+    }
 }

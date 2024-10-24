@@ -55,4 +55,16 @@ class AuthTestModel extends Model
         }
     }
 
+    public function CheckHeader(): bool|string
+    {
+        if ($response = $this->auth->verifyAuthHeader()) {
+                return json_encode(value: $response);
+        } else {
+            return json_encode(value: [
+                "status" => "500",
+                "message" => "error"
+            ]);
+        }
+    }
+
 }
