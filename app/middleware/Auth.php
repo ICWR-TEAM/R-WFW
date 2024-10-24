@@ -48,8 +48,8 @@ class Auth
 
         $sKey = $key ? $key : $this->secretKey;
         $segments = explode(separator: '.', string: $token);
-        if (count(value: $segments) !== 3) {
 
+        if (count(value: $segments) !== 3) {
             Response::setStatusCode(statusCode: 400);
             return [
                 "status" => "error",
@@ -60,8 +60,8 @@ class Auth
 
         list($base64UrlHeader, $base64UrlPayload, $signature) = $segments;
         $payload = $this->base64UrlDecodeJson(data: $base64UrlPayload);
-        if (isset($payload['exp']) && $payload['exp'] < time()) {
 
+        if (isset($payload['exp']) && $payload['exp'] < time()) {
             Response::setStatusCode(statusCode: 401);
             return [
                 "status" => "error",
@@ -71,8 +71,8 @@ class Auth
         }
 
         $validSignature = $this->base64UrlEncode(data: hash_hmac(algo: 'SHA256', data: "$base64UrlHeader.$base64UrlPayload", key: $sKey, binary: true));
-        if ($validSignature !== $signature) {
 
+        if ($validSignature !== $signature) {
             Response::setStatusCode(statusCode: 400);
             return [
                 "status" => "error",
@@ -94,6 +94,7 @@ class Auth
     {
         if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
             $authHeader = $_SERVER['HTTP_AUTHORIZATION'];
+
             if (preg_match(pattern: '/Bearer\s(\S+)/', subject: $authHeader, matches: $matches)) {
                 $bearerToken = $matches[1];
                 return $this->verifyJwt(token: $bearerToken);
@@ -109,16 +110,23 @@ class Auth
     public function generateSignature(string $data): string
     {
         openssl_sign(data: $data, signature: $signature, private_key: $this->privateKey, algorithm: OPENSSL_ALGO_SHA256);
-        $signature = $this->base64UrlEncode(data: openssl_digest(data: $signature, digest_algo: 'sha256', binary: true));
-        header(header: "X-Signature: " . $signature);
-        return $signature;
+        $encodedSignature = $this->base64UrlEncode(data: $signature);
+        header(header: "X-Signature: " . $encodedSignature);
+        return $encodedSignature;
     }
 
 
     public function verifySignature(string $data, string $signature): bool
     {
-        $data_sign = $this->generateSignature(data: $data);
-        return ($signature === $data_sign) ? true : false;
+        $decodedSignature = $this->base64UrlDecode(data: $signature);
+    
+        if (!$decodedSignature) {
+            return false;
+        }
+
+        $result = openssl_verify(data: $data, signature: $decodedSignature, public_key: $this->publicKey, algorithm: OPENSSL_ALGO_SHA256);
+        
+        return $result === 1;
     }
 
     public function verifySignatureHeader(): array
@@ -136,6 +144,7 @@ class Auth
         }
 
         $isValid = $this->verifySignature(data: $requestBody, signature: $receivedSignature);
+
         if (!$isValid) {
             Response::setStatusCode(statusCode: 403);
             return [
@@ -160,18 +169,22 @@ class Auth
     private function base64UrlDecode(string $data): mixed
     {
         $padding = strlen(string: $data) % 4;
+
         if ($padding > 0) {
             $data .= str_repeat(string: '=', times: 4 - $padding);
         }
+
         return base64_decode(string: strtr(string: $data, from: '-_', to: '+/'));
     }
 
     private function base64UrlDecodeJson(string $data): mixed
     {
         $padding = strlen(string: $data) % 4;
+
         if ($padding > 0) {
             $data .= str_repeat(string: '=', times: 4 - $padding);
         }
+
         return json_decode(json: base64_decode(string: strtr(string: $data, from: '-_', to: '+/')), associative: true);
     }
 }
