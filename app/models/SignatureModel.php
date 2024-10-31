@@ -112,7 +112,7 @@ class SignatureModel extends Model
                         "status" => "200",
                         "message" => "success",
                         "data" => [
-                            "data" => $input_data
+                            "data" => $input_decode['data']
                         ]
                     ]);
                 } else {
