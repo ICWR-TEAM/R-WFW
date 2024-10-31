@@ -23,12 +23,14 @@ class SignatureModel extends Model
                     ]
                 ]);
             } else {
+                $this->response->setStatusCode(statusCode: 401);
                 return json_encode(value: [
                     "status" => "401",
                     "message" => "Invalid JSON Payload!"
                 ]);
             }
         } else {
+            $this->response->setStatusCode(statusCode: 500);
             return json_encode(value: [
                 "status" => "500",
                 "message" => "error"
@@ -46,6 +48,7 @@ class SignatureModel extends Model
                 return json_encode(value: $response);
             }
         } else {
+            $this->response->setStatusCode(statusCode: 500);
             return json_encode(value: [
                 "status" => "500",
                 "message" => "error"
@@ -73,12 +76,14 @@ class SignatureModel extends Model
                     "data" => $data
                 ]);
             } else {
+                $this->response->setStatusCode(statusCode: 401);
                 return json_encode(value: [
                     "status" => "401",
                     "message" => "Invalid JSON Payload!"
                 ]);
             }
         } else {
+            $this->response->setStatusCode(statusCode: 500);
             return json_encode(value: [
                 "status" => "500",
                 "message" => "error"
@@ -111,6 +116,7 @@ class SignatureModel extends Model
                         ]
                     ]);
                 } else {
+                    $this->response->setStatusCode(statusCode: 403);
                     return json_encode(value: [
                         "status" => "error",
                         "code" => 403,
@@ -119,6 +125,7 @@ class SignatureModel extends Model
                 }
             }
         } else {
+            $this->response->setStatusCode(statusCode: 401);
             return json_encode(value: [
                 "status" => "401",
                 "message" => "Invalid JSON Payload!"
