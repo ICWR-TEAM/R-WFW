@@ -23,9 +23,9 @@ class SignatureModel extends Model
                     ]
                 ]);
             } else {
-                $this->response->setStatusCode(statusCode: 401);
+                $this->response->setStatusCode(statusCode: 400);
                 return json_encode(value: [
-                    "status" => "401",
+                    "status" => "400",
                     "message" => "Invalid JSON Payload!"
                 ]);
             }
@@ -76,9 +76,9 @@ class SignatureModel extends Model
                     "data" => $data
                 ]);
             } else {
-                $this->response->setStatusCode(statusCode: 401);
+                $this->response->setStatusCode(statusCode: 400);
                 return json_encode(value: [
-                    "status" => "401",
+                    "status" => "400",
                     "message" => "Invalid JSON Payload!"
                 ]);
             }
@@ -125,9 +125,9 @@ class SignatureModel extends Model
                 }
             }
         } else {
-            $this->response->setStatusCode(statusCode: 401);
+            $this->response->setStatusCode(statusCode: 400);
             return json_encode(value: [
-                "status" => "401",
+                "status" => "400",
                 "message" => "Invalid JSON Payload!"
             ]);
         }
