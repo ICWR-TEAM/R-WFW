@@ -111,9 +111,7 @@ class SignatureModel extends Model
                     return json_encode(value: [
                         "status" => "200",
                         "message" => "success",
-                        "data" => [
-                            "data" => $input_decode['data']
-                        ]
+                        "data" => $input_decode['data']
                     ]);
                 } else {
                     $this->response->setStatusCode(statusCode: 403);
