@@ -4,7 +4,7 @@ RUN apt-get update && apt-get install -y     nginx     libcurl4-openssl-dev     
 
 COPY default.conf /etc/nginx/sites-available/default
 
-RUN mkdir -p /var/www/app &&     mkdir -p /var/www/public &&     mkdir -p /var/www/tmp &&     chmod 777 /var/www/tmp &&     chown -R www-data:www-data /var/www/public
+RUN mkdir -p /var/www/app &&     mkdir -p /var/www/public &&     mkdir -p /var/www/data &&     mkdir -p /var/www/tmp &&     chmod 777 /var/www/tmp &&     chown -R www-data:www-data /var/www/public
 
 EXPOSE 80
 
