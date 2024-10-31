@@ -50,5 +50,10 @@ EOF
 docker build -t r-wfw .
 
 # Run Docker
-docker run -d -p 8090:80 -v "$(pwd)/public:/var/www/public" -v "$(pwd)/app:/var/www/app" -v "$(pwd)/tmp:/var/www/tmp" r-wfw
+docker run -d -p 8090:80 \
+    -v "$(pwd)/public:/var/www/public" \
+    -v "$(pwd)/app:/var/www/app" \
+    -v "$(pwd)/tmp:/var/www/tmp" \
+    -v "$(pwd)/data:/var/www/data" \
+    r-wfw
 
