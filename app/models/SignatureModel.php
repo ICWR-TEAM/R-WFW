@@ -132,5 +132,4 @@ class SignatureModel extends Model
             ]);
         }
     }
-
 }
