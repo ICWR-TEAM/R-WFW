@@ -20,4 +20,18 @@ class Signature extends Controller
             $this->view(view: 'api/index', data: $data);
         }
     }
+
+    public function signSpecific(): void
+    {
+        if ($data['response'] = $this->model(model: 'SignatureModel')->SignSpecific()) {
+            $this->view(view: 'api/index', data: $data);
+        }
+    }
+
+    public function signSpecificCheck(): void
+    {
+        if ($data['response'] = $this->model(model: 'SignatureModel')->SignSPecificCheck()) {
+            $this->view(view: 'api/index', data: $data);
+        }
+    }
 }
