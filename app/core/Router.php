@@ -100,4 +100,10 @@ class Router
 
         return $url_parts;
     }
+
+    public function RoutesName(string $name, array $context = []): void
+    {
+        extract(array: $context);
+        require_once('../app/config/Routes/' . $name . '.php');
+    }
 }

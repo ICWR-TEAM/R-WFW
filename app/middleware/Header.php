@@ -14,38 +14,24 @@ class Header
      */
     public function cors(array $methods, array $allowedOrigins, array $allowedHeaders): void
     {
-        // Get the current request method
-        $currentMethod = strtoupper($_SERVER['REQUEST_METHOD']);
-
-        // Get the Origin header from the request
+        $currentMethod = strtoupper(string: $_SERVER['REQUEST_METHOD']);
         $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
 
-        // Check if the current method is in the allowed methods list
-        if (in_array($currentMethod, $methods)) {
 
-            // Check if the request's origin is allowed
-            if (in_array($origin, $allowedOrigins)) {
-                // Set the Access-Control-Allow-Origin header (can be a list of origins)
-                header("Access-Control-Allow-Origin: $origin");
+        if (in_array(needle: $currentMethod, haystack: $methods)) {
+
+            if (in_array(needle: $origin, haystack: $allowedOrigins)) {
+                header(header: "Access-Control-Allow-Origin: $origin");
             } else {
-                // If the origin is not allowed, we can either not send the CORS headers, or block it
-                header("Access-Control-Allow-Origin: null"); // or handle as per your business needs
+                header(header: "Access-Control-Allow-Origin: null");
             }
+            header(header: "Access-Control-Allow-Methods: " . implode(separator: ", ", array: $methods));
+            header(header: "Access-Control-Allow-Headers: " . implode(separator: ", ", array: $allowedHeaders));
+            header(header: "Access-Control-Allow-Credentials: true");
 
-            // Set the Access-Control-Allow-Methods header (can be a list of allowed methods)
-            header("Access-Control-Allow-Methods: " . implode(", ", $methods));
-
-            // Set the Access-Control-Allow-Headers header (can be a list of allowed headers)
-            header("Access-Control-Allow-Headers: " . implode(", ", $allowedHeaders));
-
-            // Allow credentials (cookies, HTTP authentication, etc.)
-            header("Access-Control-Allow-Credentials: true");
-
-            // Handle preflight request (OPTIONS)
             if ($currentMethod === 'OPTIONS') {
-                // If the method is OPTIONS, return a 204 No Content response and stop further execution
-                http_response_code(204);
-                exit;  // Important to stop execution after OPTIONS request
+                http_response_code(response_code: 204);
+                exit;
             }
         }
     }

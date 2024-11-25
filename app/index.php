@@ -14,6 +14,7 @@ require_once('../app/core/Security.php');
 require_once('../app/core/Updater.php');
 
 require_once('../app/middleware/Auth.php');
+require_once('../app/middleware/Header.php');
 
 require_once('../app/config/Config.php');
 require_once('../app/config/Routes.php');
