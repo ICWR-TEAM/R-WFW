@@ -10,6 +10,6 @@ class CorsModel extends Model
 
     public function Test(): void
     {
-        $this->header->cors(methods: ['OPTIONS', 'GET'], allowedOrigins: ['https://example.com', 'https://another-domain.com'], allowedHeaders: ['*']);
+        $this->header->cors(methods: ['OPTIONS', 'GET'], allowedOrigins: ['https://incrustwerush.org', 'https://example.com'], allowedHeaders: ['*']);
     }
 }
