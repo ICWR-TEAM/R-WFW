@@ -8,7 +8,7 @@
 	},
 	"item": [
 		{
-			"name": "Test Postman",
+			"name": "Test",
 			"item": [
 				{
 					"name": "index",
@@ -292,6 +292,26 @@
 								"sign",
 								"specific",
 								"check"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cors",
+					"request": {
+						"method": "OPTIONS",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8090/test/cors",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"test",
+								"cors"
 							]
 						}
 					},
