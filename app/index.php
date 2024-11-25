@@ -5,7 +5,6 @@ namespace App\Index;
 require_once('../app/core/Config.php');
 require_once('../app/core/Controller.php');
 require_once('../app/core/ErrorHandling.php');
-require_once('../app/core/Response.php');
 require_once('../app/core/Database.php');
 require_once('../app/core/Model.php');
 require_once('../app/core/Flasher.php');

@@ -63,7 +63,6 @@ class Header
         $currentMethod = strtoupper(string: $_SERVER['REQUEST_METHOD']);
         $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
 
-
         if (in_array(needle: $currentMethod, haystack: $methods)) {
 
             if (in_array(needle: $origin, haystack: $allowedOrigins)) {

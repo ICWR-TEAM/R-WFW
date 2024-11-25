@@ -25,7 +25,6 @@ class Model
             $this->db = new Database();
         }
 
-        $this->response = new Response();
         $this->auth = new Auth(secretKey: SECRET_KEY_JWT, privateKeyPath: SIGNATURE_PRIVATE_KEY, publicKeyPath: SIGNATURE_PUBLIC_KEY);
         $this->header = new Header();
     }

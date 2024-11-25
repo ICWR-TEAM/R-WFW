@@ -7,6 +7,7 @@ use App\Core\Model;
 class SignatureModel extends Model
 {
     public $auth;
+    public $header;
 
     public function Create(): bool|string
     {
@@ -23,14 +24,14 @@ class SignatureModel extends Model
                     ]
                 ]);
             } else {
-                $this->response->setStatusCode(statusCode: 400);
+                $this->header->setStatusCode(statusCode: 400);
                 return json_encode(value: [
                     "status" => "400",
                     "message" => "Invalid JSON Payload!"
                 ]);
             }
         } else {
-            $this->response->setStatusCode(statusCode: 500);
+            $this->header->setStatusCode(statusCode: 500);
             return json_encode(value: [
                 "status" => "500",
                 "message" => "error"
@@ -48,7 +49,7 @@ class SignatureModel extends Model
                 return json_encode(value: $response);
             }
         } else {
-            $this->response->setStatusCode(statusCode: 500);
+            $this->header->setStatusCode(statusCode: 500);
             return json_encode(value: [
                 "status" => "500",
                 "message" => "error"
@@ -76,14 +77,14 @@ class SignatureModel extends Model
                     "data" => $data
                 ]);
             } else {
-                $this->response->setStatusCode(statusCode: 400);
+                $this->header->setStatusCode(statusCode: 400);
                 return json_encode(value: [
                     "status" => "400",
                     "message" => "Invalid JSON Payload!"
                 ]);
             }
         } else {
-            $this->response->setStatusCode(statusCode: 500);
+            $this->header->setStatusCode(statusCode: 500);
             return json_encode(value: [
                 "status" => "500",
                 "message" => "error"
@@ -114,7 +115,7 @@ class SignatureModel extends Model
                         "data" => $input_decode['data']
                     ]);
                 } else {
-                    $this->response->setStatusCode(statusCode: 403);
+                    $this->header->setStatusCode(statusCode: 403);
                     return json_encode(value: [
                         "status" => "error",
                         "code" => 403,
@@ -124,7 +125,7 @@ class SignatureModel extends Model
             }
         }
 
-        $this->response->setStatusCode(statusCode: 400);
+        $this->header->setStatusCode(statusCode: 400);
         return json_encode(value: [
             "status" => "400",
             "message" => "Invalid JSON Payload!"

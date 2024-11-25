@@ -2,7 +2,7 @@
 
 namespace App\Middleware;
 
-use App\Core\Response;
+use App\Middleware\Header;
 
 class Auth
 {
@@ -50,7 +50,7 @@ class Auth
         $segments = explode(separator: '.', string: $token);
 
         if (count(value: $segments) !== 3) {
-            Response::setStatusCode(statusCode: 400);
+            Header::setStatusCode(statusCode: 400);
             return [
                 "status" => "error",
                 "code" => 400,
@@ -62,7 +62,7 @@ class Auth
         $payload = $this->base64UrlDecodeJson(data: $base64UrlPayload);
 
         if (isset($payload['exp']) && $payload['exp'] < time()) {
-            Response::setStatusCode(statusCode: 401);
+            Header::setStatusCode(statusCode: 401);
             return [
                 "status" => "error",
                 "code" => 401,
@@ -73,7 +73,7 @@ class Auth
         $validSignature = $this->base64UrlEncode(data: hash_hmac(algo: 'SHA256', data: "$base64UrlHeader.$base64UrlPayload", key: $sKey, binary: true));
 
         if ($validSignature !== $signature) {
-            Response::setStatusCode(statusCode: 400);
+            Header::setStatusCode(statusCode: 400);
             return [
                 "status" => "error",
                 "code" => 400,
@@ -81,7 +81,7 @@ class Auth
             ];
         }
 
-        Response::setStatusCode(statusCode: 200);
+        Header::setStatusCode(statusCode: 200);
         return [
             "status" => "success",
             "code" => 200,
@@ -135,7 +135,7 @@ class Auth
         $requestBody = file_get_contents(filename: 'php://input');
 
         if (!$receivedSignature) {
-            Response::setStatusCode(statusCode: 400);
+            Header::setStatusCode(statusCode: 400);
             return [
                 "status" => "error",
                 "code" => 400,
@@ -146,7 +146,7 @@ class Auth
         $isValid = $this->verifySignature(data: $requestBody, signature: $receivedSignature);
 
         if (!$isValid) {
-            Response::setStatusCode(statusCode: 403);
+            Header::setStatusCode(statusCode: 403);
             return [
                 "status" => "error",
                 "code" => 403,
