@@ -64,7 +64,6 @@ class Header
         $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
 
         if (in_array(needle: $currentMethod, haystack: $methods)) {
-
             if (in_array(needle: $origin, haystack: $allowedOrigins)) {
                 header(header: "Access-Control-Allow-Origin: $origin");
             } else {
