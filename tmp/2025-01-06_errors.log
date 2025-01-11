@@ -1,0 +1,1 @@
+Uncaught exception: Class "App\Core\Response" not found in /var/www/app/controllers/Error.php on line 16

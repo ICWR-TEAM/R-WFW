@@ -1,0 +1,364 @@
+{
+	"info": {
+		"_postman_id": "d83f05fe-710e-4282-ab26-d3d77daa68a4",
+		"name": "R-WFW",
+		"description": "`R-WFW`",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29232387"
+	},
+	"item": [
+		{
+			"name": "Test",
+			"item": [
+				{
+					"name": "index",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8090/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "about",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8090/about",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"about"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "test",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8090/test",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "error",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8090/error",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"error"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "test/db",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8090/test/db",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"test",
+								"db"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "auth/login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"username\",\n    \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8090/test/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"test",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "auth/check_header",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MzI1MTkwNTIsImV4cCI6OTc5MjkyMDg1MiwiZGF0YSI6eyJtZXNzYWdlIjoic3VjY2VzcyJ9fQ.8THXRz6RtLf-y-NKaKjUGl4WoSQjIARtXWcmOKWnwyg",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8090/test/auth/check_header",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"test",
+								"auth",
+								"check_header"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sign/create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"message\": \"success\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8090/test/sign/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"test",
+								"sign",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sign/check",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Signature",
+								"value": "nXi8yvN9ReAVPs5g-52DZr6NDBvTwFfSSvQhjaXBS5VxvrlH8S4uO-LUaXaO8sY_ybo1LLDLkPs74EGI5dkVcZZDnCWKJB9e7OOMFALF_eiZWsLV8dftl3ag-C0yQxqeHPEHSJ8Cr655Y2e6fmJNOkuuQYIL9hPWgVaB5dBlCZZw3uEj5ALSnRZxtDgZC6Fmv7tp9scPpyHscrHyIMfcHkabdAYXTPSRwnLywQnbg25DewqnzvgEEagfNM2HY4s2DWsHePP9Mh-l_Q9fA8KbqhusLTcR__m3ICk2XK5FyT-L-89SZImVglKOuV-0NFPfBtrVoOQeiPDs0IYCrZg65Q",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"message\": \"success\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8090/test/sign/check",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"test",
+								"sign",
+								"check"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sign/specific/create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"200\",\n    \"message\": \"success\",\n    \"amount\": 123,\n    \"qty\": 1,\n    \"data\": {\n        \"message\": \"Test!\"\n    }\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8090/test/sign/specific/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"test",
+								"sign",
+								"specific",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sign/specific/check",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Signature",
+								"value": "LGDD9JEJsu6L0oBSnr_F9lJ3rmaSfFFepIIyYnFVOw_l4xxXTiTstcsgYXc7XMx9-HSO7irZBwu4G2DMFWFlYqbTUxBlswUYfi4OPmyO2FbEOXSwBlAXO_hsX1fFozZPP3qyxbJv2w1MqEB5iKUN5sdNzKXg4_1QETucmBrEVRVHOTlUVhCcCmoTu_JU31dURlsDWFPpwlvqfCZSGCgsbJBB1VWeLbCyp9fkeDV6JI_TMUCkk6aEMEJrc4tMjkFpqH7j1BaB4e25IAQKKFgJj-0ez-8fy_EZ65g763W3iu11pjC7Q8lG94hbFwZAS4MXstUMaTLBB1D5uvBUrONPRg",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"200\",\n    \"message\": \"success\",\n    \"data\": {\n        \"message\": \"Test1\",\n        \"amount\": 123,\n        \"qty\": 1\n    }\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8090/test/sign/specific/check",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"test",
+								"sign",
+								"specific",
+								"check"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cors",
+					"request": {
+						"method": "OPTIONS",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8090/test/cors",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"test",
+								"cors"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "key",
+				"value": "X-API-Key",
+				"type": "string"
+			},
+			{
+				"key": "value",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://farming-simulator.pstmn.io"
+		}
+	]
+}

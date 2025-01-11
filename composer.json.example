@@ -1,0 +1,30 @@
+{
+    "name": "icwr-team/r-wfw",
+    "description": "Rusher Web Framework",
+    "require": {
+        "spipu/html2pdf": "^5.3",
+        "dompdf/dompdf": "^3.0",
+        "byjg/migration": "^5.0",
+        "byjg/migration-cli": "^5.0"
+    },
+    "config": {
+        "vendor-dir": "app/libraries",
+        "cache-dir": "tmp/cache"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/icwr-team/r-wfw"
+        }
+    ],
+    "prefer-stable": true,
+    "scripts": {
+        "post-install-cmd": [
+            "echo 'Installation complete!'"
+        ],
+        "post-update-cmd": [
+            "echo 'Update complete!'"
+        ]
+    },
+    "license": "MIT"
+}
