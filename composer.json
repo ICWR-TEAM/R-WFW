@@ -8,11 +8,7 @@
             "email": "afrzlf4@gmail.com"
         }
     ],
-    "require": {
-	    "spipu/html2pdf": "^5.3",
-        "dompdf/dompdf": "^3.0",
-        "guzzlehttp/guzzle": "*"
-    },
+    "require": {},
     "config": {
         "vendor-dir": "app/libraries",
         "cache-dir": "tmp/cache"

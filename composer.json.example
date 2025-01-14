@@ -1,11 +1,17 @@
 {
     "name": "icwr-team/r-wfw",
     "description": "Rusher Web Framework",
+    "type": "project",
+    "authors": [
+        {
+            "name": "afrzlfa",
+            "email": "afrzlf4@gmail.com"
+        }
+    ],
     "require": {
-        "spipu/html2pdf": "^5.3",
+	    "spipu/html2pdf": "^5.3",
         "dompdf/dompdf": "^3.0",
-        "byjg/migration": "^5.0",
-        "byjg/migration-cli": "^5.0"
+        "guzzlehttp/guzzle": "*"
     },
     "config": {
         "vendor-dir": "app/libraries",
