@@ -138,7 +138,7 @@ class Router
         $previousPrefix = $this->groupPrefix;
         $previousMiddleware = $this->groupMiddleware;
 
-        $this->groupPrefix = $prefix;
+        $this->groupPrefix = ($prefix === "/") ? "" : $prefix;
         $this->groupMiddleware = array_merge($this->groupMiddleware, $middlewares);
 
         $callback($this);
