@@ -5,11 +5,11 @@
 Sets the HTTP status code for a route.
 
 ```php
-$route->Group(prefix: "/error-handling", middlewares: [
+$route->Group(prefix: "/error-page", middlewares: [
     [
         'middleware' => 'Header',
         'function' => 'setStatusCode',
-        'params' => [400]  // Set status code to 400
+        'params' => [404]  // Set status code to 404
     ]
 ], callback: function() use ($route) {
     $route->Route(method: 'get', url: '/not-found', handler: 'ErrorController::notFound');
