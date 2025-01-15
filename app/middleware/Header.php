@@ -80,4 +80,12 @@ class Header
             }
         }
     }
+
+    public static function headerSet(array $headers): void
+    {
+        foreach($headers as $k => $v)
+        {
+            header(header: "$k: $v");
+        }
+    }
 }

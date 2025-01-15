@@ -43,6 +43,15 @@ class Auth
         return "$base64UrlHeader.$base64UrlPayload.$signature";
     }
 
+    public function generateJwtHeader(array $payload, int $expired = 3600, string $key = ''): void
+    {
+        $sKey = $key ? $key : $this->secretKey;
+        $exp = is_int(value: $expired) ? $expired : 3600;
+        $jwt = $this->generateJwt(payload: $payload, expired: $exp, key: $sKey);
+
+        Header::headerSet(headers: ["Authorization" => "Bearer " . $jwt]);
+    }
+
     public function verifyJwt(string $token, string $key = ''): array
     {
 
@@ -90,21 +99,30 @@ class Auth
         ];
     }
 
-    public function verifyAuthHeader(): array
+    public function verifyAuthHeader(): void
     {
         if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
             $authHeader = $_SERVER['HTTP_AUTHORIZATION'];
 
             if (preg_match(pattern: '/Bearer\s(\S+)/', subject: $authHeader, matches: $matches)) {
                 $bearerToken = $matches[1];
-                return $this->verifyJwt(token: $bearerToken);
+                if ($this->verifyJwt(token: $bearerToken)["code"] !== "200") exit();
             }
+        } else {
+            Header::setStatusCode(statusCode: 400);
+            echo json_encode(value: [
+                "status" => "400",
+                "message" => "Missing Authorization header."
+            ]);
+            exit();
         }
 
-        return [
+        Header::setStatusCode(statusCode: 500);
+        echo json_encode(value: [
             "status" => "500",
             "message" => "error"
-        ];
+        ]);
+        exit();
     }
 
     public function generateSignature(string $data): string
