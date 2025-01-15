@@ -9,7 +9,7 @@ $route->Group(prefix: "/error-handling", middlewares: [
     [
         'middleware' => 'Header',
         'function' => 'setStatusCode',
-        'params' => [400]  // Set status code to 404
+        'params' => [400]  // Set status code to 400
     ]
 ], callback: function() use ($route) {
     $route->Route(method: 'get', url: '/not-found', handler: 'ErrorController::notFound');
