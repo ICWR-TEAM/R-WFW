@@ -60,6 +60,7 @@ class Auth
 
         if (count(value: $segments) !== 3) {
             Header::setStatusCode(statusCode: 400);
+            Header::headerSet(headers: ["Content-Type" => "application/json"]);
             return [
                 "status" => "error",
                 "code" => 400,
@@ -72,6 +73,7 @@ class Auth
 
         if (isset($payload['exp']) && $payload['exp'] < time()) {
             Header::setStatusCode(statusCode: 401);
+            Header::headerSet(headers: ["Content-Type" => "application/json"]);
             return [
                 "status" => "error",
                 "code" => 401,
@@ -83,6 +85,7 @@ class Auth
 
         if ($validSignature !== $signature) {
             Header::setStatusCode(statusCode: 400);
+            Header::headerSet(headers: ["Content-Type" => "application/json"]);
             return [
                 "status" => "error",
                 "code" => 400,
@@ -106,7 +109,11 @@ class Auth
 
             if (preg_match(pattern: '/Bearer\s(\S+)/', subject: $authHeader, matches: $matches)) {
                 $bearerToken = $matches[1];
-                if ($this->verifyJwt(token: $bearerToken)["code"] !== "200") exit();
+                $resp = $this->verifyJwt(token: $bearerToken);
+                if ($resp['code'] !== 200) {
+                    echo json_encode(value: $resp);
+                    exit();
+                }
             }
         } else {
             Header::setStatusCode(statusCode: 400);
@@ -116,13 +123,6 @@ class Auth
             ]);
             exit();
         }
-
-        Header::setStatusCode(statusCode: 500);
-        echo json_encode(value: [
-            "status" => "500",
-            "message" => "error"
-        ]);
-        exit();
     }
 
     public function generateSignature(string $data): string
@@ -154,6 +154,7 @@ class Auth
 
         if (!$receivedSignature) {
             Header::setStatusCode(statusCode: 400);
+            Header::headerSet(headers: ["Content-Type" => "application/json"]);
             echo json_encode(value: [
                 "status" => "error",
                 "code" => 400,
@@ -166,6 +167,7 @@ class Auth
 
         if (!$isValid) {
             Header::setStatusCode(statusCode: 403);
+            Header::headerSet(headers: ["Content-Type" => "application/json"]);
             echo json_encode(value: [
                 "status" => "error",
                 "code" => 403,
