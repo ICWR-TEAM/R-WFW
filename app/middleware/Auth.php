@@ -47,7 +47,7 @@ class Auth
             }
         }
     
-        return null;
+        return false;
     }
 
     public function generateJwt(array $payload, int $expired = 3600, string $key = ''): string
@@ -132,10 +132,10 @@ class Auth
     public function verifyAuthHeader(): void
     {
         $authHeader = $this->getAuthorizationHeaders();
-        if ($authHeader !== null) {
-            $authorization = $authHeader;
 
-            if (preg_match(pattern: '/Bearer\s(\S+)/', subject: $authorization, matches: $matches)) {
+        if ($authHeader) {
+
+            if (preg_match(pattern: '/Bearer\s(\S+)/', subject: $authHeader, matches: $matches)) {
                 $bearerToken = $matches[1];
                 $resp = $this->verifyJwt(token: $bearerToken);
                 if ($resp['code'] !== 200) {
