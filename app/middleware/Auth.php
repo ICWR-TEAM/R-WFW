@@ -23,6 +23,33 @@ class Auth
         }
     }
 
+    private function getAuthorizationHeaders(): string
+    {
+        if (function_exists(function: 'getallheaders')) {
+            $headers = getallheaders();
+            if (isset($headers['Authorization'])) {
+                return $headers['Authorization'];
+            }
+        }
+    
+        if (isset($_SERVER['Authorization'])) {
+            return $_SERVER['Authorization'];
+        }
+    
+        if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
+            return $_SERVER['HTTP_AUTHORIZATION'];
+        }
+    
+        if (function_exists(function: 'apache_request_headers')) {
+            $apacheHeaders = apache_request_headers();
+            if (isset($apacheHeaders['Authorization'])) {
+                return $apacheHeaders['Authorization'];
+            }
+        }
+    
+        return null;
+    }
+
     public function generateJwt(array $payload, int $expired = 3600, string $key = ''): string
     {
 
@@ -104,10 +131,11 @@ class Auth
 
     public function verifyAuthHeader(): void
     {
-        if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
-            $authHeader = $_SERVER['HTTP_AUTHORIZATION'];
+        $authHeader = $this->getAuthorizationHeaders();
+        if ($authHeader !== null) {
+            $authorization = $authHeader;
 
-            if (preg_match(pattern: '/Bearer\s(\S+)/', subject: $authHeader, matches: $matches)) {
+            if (preg_match(pattern: '/Bearer\s(\S+)/', subject: $authorization, matches: $matches)) {
                 $bearerToken = $matches[1];
                 $resp = $this->verifyJwt(token: $bearerToken);
                 if ($resp['code'] !== 200) {
