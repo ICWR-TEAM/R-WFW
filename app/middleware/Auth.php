@@ -145,6 +145,7 @@ class Auth
             }
         } else {
             Header::setStatusCode(statusCode: 400);
+            Header::headerSet(headers: ["Content-Type" => "application/json"]);
             echo json_encode(value: [
                 "status" => "400",
                 "message" => "Missing Authorization header."
