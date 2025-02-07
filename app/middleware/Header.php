@@ -61,15 +61,9 @@ class Header
     public static function cors(array $methods, array $allowedOrigins, array $allowedHeaders): void
     {
         $currentMethod = strtoupper(string: $_SERVER['REQUEST_METHOD']);
-        $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
 
         if (in_array(needle: $currentMethod, haystack: $methods)) {
-
-            if (in_array(needle: $origin, haystack: $allowedOrigins)) {
-                header(header: "Access-Control-Allow-Origin: $origin");
-            } else {
-                header(header: "Access-Control-Allow-Origin: null");
-            }
+            header(header: "Access-Control-Allow-Origin: " . implode(separator: ", ", array: $allowedOrigins));
             header(header: "Access-Control-Allow-Methods: " . implode(separator: ", ", array: $methods));
             header(header: "Access-Control-Allow-Headers: " . implode(separator: ", ", array: $allowedHeaders));
             header(header: "Access-Control-Allow-Credentials: true");
