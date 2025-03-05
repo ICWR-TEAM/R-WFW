@@ -1,0 +1,9 @@
+#!/usr/bin/env php
+<?php
+
+use App\Core\Rusher;
+
+require_once(__DIR__ . "/app/core/Rusher.php");
+
+$rusher = new App\Core\Rusher(path: __DIR__);
+$rusher->execute();
