@@ -1,0 +1,32 @@
+{
+    "name": "icwr-team/r-wfw",
+    "description": "Rusher Web Framework",
+    "type": "project",
+    "authors": [
+        {
+            "name": "afrzlfa",
+            "email": "afrzlf4@gmail.com"
+        }
+    ],
+    "require": {},
+    "config": {
+        "vendor-dir": "app/libraries",
+        "cache-dir": "tmp/cache"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/icwr-team/r-wfw"
+        }
+    ],
+    "prefer-stable": true,
+    "scripts": {
+        "post-install-cmd": [
+            "echo 'Installation complete!'"
+        ],
+        "post-update-cmd": [
+            "echo 'Update complete!'"
+        ]
+    },
+    "license": "MIT"
+}
