@@ -1,0 +1,41 @@
+version: '3.9'
+
+services:
+  r-wfw:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: r-wfw-web
+    ports:
+      - "8090:80"
+    volumes:
+      - ./public:/var/www/public
+      - ./app:/var/www/app
+      - ./tmp:/var/www/tmp
+      - ./data:/var/www/data
+    depends_on:
+      - db
+    networks:
+      - r-wfw-net
+
+  db:
+    image: mysql:8.0
+    container_name: r-wfw-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: test
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - r-wfw-net
+
+networks:
+  r-wfw-net:
+    driver: bridge
+
+volumes:
+  db_data:
