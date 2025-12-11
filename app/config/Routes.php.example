@@ -1,0 +1,107 @@
+<?php
+
+namespace App\Config\Routes;
+require_once('../app/core/Router.php');
+use App\Core\Router;
+
+$route = new Router();
+
+$route->Route(method: 'get', url: '/', handler: "Home::index");
+
+$route->RoutesName(name: 'test/get', context: ['route' => $route]);
+$route->RoutesName(name: 'test/post', context: ['route' => $route]);
+$route->RoutesName(name: 'test/options', context: ['route' => $route]);
+
+$route->Group(prefix: "/test", middlewares: [
+        [
+            'middleware' => 'Auth',
+            'constructParams' => [SECRET_KEY_JWT, SIGNATURE_PRIVATE_KEY, SIGNATURE_PUBLIC_KEY],
+            'function' => 'generateSignature',
+            'params' => ["Hello World"]
+        ]
+    ], callback: function() use ($route) {
+    $route->Route(method: 'get', url: '/group', handler: 'About::index');
+    $route->Route(method: 'get', url: '/group/parameter/{1}/parameter/{2}/', handler: "TestParameter::index");
+});
+
+// get
+
+// GET
+
+$route->Route(method: 'get', url: '/test/about', handler: "About::index");
+$route->Route(method: 'get', url: '/test/static', handler: "StaticTestAPI::index");
+$route->Route(method: 'get', url: '/test/error', handler: "Error::index");
+$route->Route(method: 'get', url: '/test/parameter/{1}/parameter/{2}/', handler: "TestParameter::index");
+$route->Route(method: 'get', url: '/test/db', handler: "TestDB::index");
+
+$route->Route(method: 'get', url: '/test/cors', handler: "Cors::test", middlewares: [
+    [
+        'middleware' => 'Header',
+        'constructParams' => [],
+        'function' => 'cors',
+        'params' => [['OPTIONS', 'GET'], ['https://incrustwerush.org', 'https://example.com'], ['*']]
+    ]
+]);
+
+$route->Route(method: 'get', url: '/test', handler: "Home::index", middlewares: [
+    [
+        'middleware' => 'Auth',
+        'constructParams' => [SECRET_KEY_JWT, SIGNATURE_PRIVATE_KEY, SIGNATURE_PUBLIC_KEY],
+        'function' => 'generateSignature',
+        'params' => ["Hello World"]
+    ]
+]);
+
+$route->Route(method: 'get', url: '/test/pdf', handler: "TestPDF::index");
+$route->Route(method: 'get', url: '/test/dompdf', handler: "TestPDF::dompdf");
+
+// OPTIONS
+
+$route->Route(method: 'options', url: '/test/cors', handler: "Cors::options", middlewares: [
+    [
+        'middleware' => 'Header',
+        'constructParams' => [],
+        'function' => 'cors',
+        'params' => [['OPTIONS', 'GET'], ['https://incrustwerush.org', 'https://example.com'], ['*']]
+    ]
+]);
+
+// POST
+
+#$route->Route(method: 'post', url: '/test/auth/login', handler: "AuthTest::login");
+#$route->Route(method: 'post', url: '/test/auth/check_header', handler: "AuthTest::checkHeader");
+#$route->Route(method: 'post', url: '/test/sign/specific/create', handler: "Signature::signSpecific");
+#$route->Route(method: 'post', url: '/test/sign/specific/check', handler: "Signature::signSpecificCheck");
+
+$route->Route(method: 'post', url: '/test/sign/create', handler: "Signature::create", middlewares: [
+    [
+        'middleware' => 'Auth',
+        'constructParams' => [SECRET_KEY_JWT, SIGNATURE_PRIVATE_KEY, SIGNATURE_PUBLIC_KEY],
+        'function' => 'generateSignature',
+        'params' => [file_get_contents(filename: "php://input")]
+    ]
+]);
+
+$route->Route(method: 'post', url: '/test/sign/check', handler: "StaticTestAPI::sign", middlewares: [
+    [
+        'middleware' => 'Auth',
+        'constructParams' => [SECRET_KEY_JWT, SIGNATURE_PRIVATE_KEY, SIGNATURE_PUBLIC_KEY],
+        'function' => 'verifySignatureHeader',
+        'params' => []
+    ]
+]);
+
+
+// System
+
+#$route->Route(method: 'get', url: '/updater', handler: "Update::install");
+
+#$route->Route(method: 'get', url: '/test', handler: "Home::index");
+
+
+// Global Middleware
+
+#$route->Middleware(middleware: 'Auth', constructParams: [SECRET_KEY_JWT, SIGNATURE_PRIVATE_KEY, SIGNATURE_PUBLIC_KEY], function: 'generateJwt', params: [['id' => 1, 'name' => 'John Doe'], 3600, SECRET_KEY_JWT]);
+#$route->Middleware(middleware: 'Auth', constructParams: [SECRET_KEY_JWT, SIGNATURE_PRIVATE_KEY, SIGNATURE_PUBLIC_KEY], function: 'generateSignature', params: ["Hello World"]);
+
+$route->handleRoute();
