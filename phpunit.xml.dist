@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.0/phpunit.xsd"
+         bootstrap="tests/bootstrap.php"
+         colors="true"
+         verbose="true">
+    <testsuites>
+        <testsuite name="R-WFW Test Suite">
+            <directory>tests</directory>
+        </testsuite>
+        <testsuite name="Unit Tests">
+            <directory>tests</directory>
+            <exclude>tests/Integration</exclude>
+            <exclude>tests/E2E</exclude>
+        </testsuite>
+        <testsuite name="Integration Tests">
+            <directory>tests/Integration</directory>
+        </testsuite>
+        <testsuite name="E2E Tests">
+            <directory>tests/E2E</directory>
+        </testsuite>
+    </testsuites>
+    <coverage>
+        <include>
+            <directory suffix=".php">app</directory>
+        </include>
+        <exclude>
+            <directory>app/libraries</directory>
+            <directory>app/views</directory>
+        </exclude>
+    </coverage>
+    <php>
+        <const name="DEV_MODE" value="true"/>
+        <const name="DEV_BASEURL" value="http://localhost:8090"/>
+        <const name="BASEURL" value="https://example.com"/>
+        <const name="DB_USE" value="false"/>
+    </php>
+</phpunit>

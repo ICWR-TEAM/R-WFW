@@ -1,0 +1,13 @@
+# Environment configuration
+#.env
+
+# Dependencies
+#app/libraries/*
+
+# Temporary files
+tmp/
+.DS_Store
+*.log
+
+# Other
+data/mysql/
